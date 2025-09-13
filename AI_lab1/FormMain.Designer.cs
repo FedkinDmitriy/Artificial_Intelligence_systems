@@ -93,7 +93,7 @@
             // 
             // buttonStart
             // 
-            buttonStart.Location = new Point(618, 321);
+            buttonStart.Location = new Point(618, 368);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(75, 23);
             buttonStart.TabIndex = 4;
@@ -115,6 +115,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DarkGray;
+            BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
             Controls.Add(buttonReset);
             Controls.Add(buttonStart);
