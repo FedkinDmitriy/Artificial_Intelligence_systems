@@ -115,7 +115,7 @@ namespace AI_lab1
             var solver = new Solver(gridStates);
 
             // путь к королю
-            var pathToKing = solver.FindPath(knightPos.Value, kingPos.Value);
+            var pathToKing = solver.FindPathBFS(knightPos.Value, kingPos.Value);
             if (pathToKing == null)
             {
                 MessageBox.Show("Конь не может дойти до короля!","Внимание!",MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -129,7 +129,7 @@ namespace AI_lab1
             }
 
             // путь обратно
-            var pathBack = solver.FindPath(kingPos.Value, knightPos.Value);
+            var pathBack = solver.FindPathBFS(kingPos.Value, knightPos.Value);
             if (pathBack == null)
             {
                 MessageBox.Show("Конь дошёл до короля, но не может вернуться, не заходя на пройденные клетки!", "Внимание!",

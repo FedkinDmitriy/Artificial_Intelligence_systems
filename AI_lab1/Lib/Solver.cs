@@ -22,7 +22,7 @@ namespace AI_lab1.Lib
         /// <summary>
         /// Поиск пути BFS
         /// </summary>
-        public List<Node>? FindPath((int x, int y) start, (int x, int y) target)
+        public List<Node>? FindPathBFS((int x, int y) start, (int x, int y) target)
         {
             // O – открытые
             var O = new Queue<Node>();
@@ -60,6 +60,44 @@ namespace AI_lab1.Lib
 
             return null; // путь не найден
         }
+
+        /// <summary>
+        /// Поиск пути DFS
+        /// </summary>
+        public List<Node>? FindPathDFS((int x, int y) start, (int x, int y) target)
+        {
+            var O = new Stack<Node>(); // стек (вместо очереди)
+            var C = new HashSet<(int, int)>();
+
+            O.Push(new Node(start.x, start.y));
+
+            while (O.Count > 0)
+            {
+                var current = O.Pop(); //берём верхний
+
+                if ((current.X, current.Y) == target) return ReconstructPath(current);
+
+                if (C.Contains((current.X, current.Y))) continue;
+
+                C.Add((current.X, current.Y));
+
+                foreach (var (dx, dy) in KnightMoves)
+                {
+                    int nx = current.X + dx;
+                    int ny = current.Y + dy;
+
+                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD &&
+                        grid[nx, ny] != States.Burning &&
+                        grid[nx, ny] != States.Visited &&
+                        !C.Contains((nx, ny)))
+                    {
+                        O.Push(new Node(nx, ny, current));
+                    }
+                }
+            }
+            return null; // путь не найден
+        }
+
 
         /// <summary>
         /// Восстановление пути из родительских ссылок

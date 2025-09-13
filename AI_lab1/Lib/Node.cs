@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AI_lab1.Lib
 {
     /// <summary>
-    /// конкретное состояние среды
+    /// конкретное состояние среды (позиция коня + путь)
     /// </summary>
     public class Node
     {
