@@ -12,7 +12,9 @@ namespace AI_lab1
         private States[,] gridStates = new States[8, 8]; //Среда    
         public FormMain()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            checkBoxBFS.Checked = true;
+            checkBoxDFS.Checked = false;
         }
         #endregion System Values and Ctors
 
@@ -103,7 +105,6 @@ namespace AI_lab1
         {
             currentState = States.Burning;
         }
-
         private async void buttonStart_Click(object sender, EventArgs e)
         {
             if (knightPos == null || kingPos == null)
@@ -114,26 +115,43 @@ namespace AI_lab1
 
             var solver = new Solver(gridStates);
 
-            // путь к королю
-            var pathToKing = solver.FindPathBFS(knightPos.Value, kingPos.Value);
-            if (pathToKing == null)
+            Func<(int x, int y), (int x, int y), List<Node>?>? findMethod = null;
+
+            if (checkBoxBFS.Checked && !checkBoxDFS.Checked)
             {
-                MessageBox.Show("Конь не может дойти до короля!","Внимание!",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                findMethod = solver.FindPathBFS;
+            }
+            else if (checkBoxDFS.Checked && !checkBoxBFS.Checked)
+            { 
+                findMethod = solver.FindPathDFS;
+            }
+            else
+            {
+                MessageBox.Show("Выберите метод поиска (BFS или DFS)!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Reset();
                 return;
             }
 
-            // отмечаем клетки как пройденные, пропускаем первую (где находился конь)
+            // путь к королю
+            var pathToKing = findMethod(knightPos.Value, kingPos.Value);
+            if (pathToKing == null)
+            {
+                MessageBox.Show("Конь не может дойти до короля!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // отмечаем клетки как пройденные, пропускаем первую
             foreach (var node in pathToKing.Skip(1))
             {
-                if (gridStates[node.X, node.Y] == States.Empty) gridStates[node.X, node.Y] = States.Visited;
+                if (gridStates[node.X, node.Y] == States.Empty)
+                    gridStates[node.X, node.Y] = States.Visited;
             }
 
             // путь обратно
-            var pathBack = solver.FindPathBFS(kingPos.Value, knightPos.Value);
+            var pathBack = findMethod(kingPos.Value, knightPos.Value);
             if (pathBack == null)
             {
-                MessageBox.Show("Конь дошёл до короля, но не может вернуться, не заходя на пройденные клетки!", "Внимание!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Конь дошёл до короля, но не может вернуться!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -142,17 +160,30 @@ namespace AI_lab1
             MessageBox.Show(
                 $"Путь найден!\nШагов до короля: {pathToKing.Count - 1}\n" +
                 $"Шагов обратно: {pathBack.Count - 1}\nВсего шагов: {totalSteps}",
-                "Информация",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
+                "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information
             );
-
 
             // визуализация пути
             await HighlightPathAsync(pathToKing, Color.LightBlue);
             await HighlightPathAsync(pathBack, Color.LightGreen);
         }
 
+        private void Reset()
+        {
+            checkBoxBFS.Checked = false;
+            checkBoxDFS.Checked = false;
+            knightPos = null;
+            kingPos = null;
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                {
+                    gridStates[i, j] = States.Empty;
+                    cells[i, j].Image = null;
+                    cells[i, j].Text = "";
+                    cells[i, j].BackColor = (i + j) % 2 == 0 ? Color.GhostWhite : Color.SaddleBrown;
+                }
+            currentState = States.Empty;
+        }
         private async Task HighlightPathAsync(List<Node> path, Color color, bool markVisited = true)
         {
             foreach (var node in path)
@@ -176,19 +207,7 @@ namespace AI_lab1
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            knightPos = null;
-            kingPos = null;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    gridStates[i, j] = States.Empty;
-                    cells[i, j].Image = null;
-                    cells[i, j].Text = "";
-                    cells[i, j].BackColor = (i + j) % 2 == 0 ? Color.GhostWhite : Color.SaddleBrown;
-                }
-            }
-            currentState = States.Empty;
+            Reset();
         }
 
     }

@@ -34,6 +34,8 @@
             buttonBurn = new Button();
             buttonStart = new Button();
             buttonReset = new Button();
+            checkBoxDFS = new CheckBox();
+            checkBoxBFS = new CheckBox();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -93,7 +95,7 @@
             // 
             // buttonStart
             // 
-            buttonStart.Location = new Point(618, 368);
+            buttonStart.Location = new Point(618, 376);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(75, 23);
             buttonStart.TabIndex = 4;
@@ -103,13 +105,33 @@
             // 
             // buttonReset
             // 
-            buttonReset.Location = new Point(618, 397);
+            buttonReset.Location = new Point(618, 405);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(75, 23);
             buttonReset.TabIndex = 5;
             buttonReset.Text = "Сброс";
             buttonReset.UseVisualStyleBackColor = true;
             buttonReset.Click += buttonReset_Click;
+            // 
+            // checkBoxDFS
+            // 
+            checkBoxDFS.AutoSize = true;
+            checkBoxDFS.Location = new Point(647, 336);
+            checkBoxDFS.Name = "checkBoxDFS";
+            checkBoxDFS.Size = new Size(46, 19);
+            checkBoxDFS.TabIndex = 6;
+            checkBoxDFS.Text = "DFS";
+            checkBoxDFS.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBFS
+            // 
+            checkBoxBFS.AutoSize = true;
+            checkBoxBFS.Location = new Point(648, 311);
+            checkBoxBFS.Name = "checkBoxBFS";
+            checkBoxBFS.Size = new Size(45, 19);
+            checkBoxBFS.TabIndex = 7;
+            checkBoxBFS.Text = "BFS";
+            checkBoxBFS.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -118,6 +140,8 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(checkBoxBFS);
+            Controls.Add(checkBoxDFS);
             Controls.Add(buttonReset);
             Controls.Add(buttonStart);
             Controls.Add(buttonBurn);
@@ -129,6 +153,7 @@
             Text = "Attila's Horse";
             Load += FormMain_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -139,5 +164,7 @@
         private Button buttonBurn;
         private Button buttonStart;
         private Button buttonReset;
+        private CheckBox checkBoxDFS;
+        private CheckBox checkBoxBFS;
     }
 }
