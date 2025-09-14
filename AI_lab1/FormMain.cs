@@ -34,9 +34,12 @@ namespace AI_lab1
 
                     btn.Click += (s, eArgs) =>
                     {
-                        var button = (Button)s!;
-                        var (x, y) = ((int, int))button.Tag!;
+                        var button = s as Button;
 
+                        if (button is null) return;
+
+                        var (x, y) = ((int, int))button.Tag!;
+                        
                         switch (currentState)
                         {
                             case States.Knight:
