@@ -80,7 +80,7 @@ namespace AI_lab1
                                 }
                             default:
                                 {
-                                    MessageBox.Show($"Ќажата клетка: {x + 1},{y + 1}");
+                                    //MessageBox.Show($"Ќажата клетка: {x + 1},{y + 1}");
                                     break;
                                 }
                         }
@@ -92,7 +92,7 @@ namespace AI_lab1
             }
         }
 
-
+        #region Switch states env
         private void buttonKnight_Click(object sender, EventArgs e)
         {
             currentState = States.Knight;
@@ -105,6 +105,8 @@ namespace AI_lab1
         {
             currentState = States.Burning;
         }
+        #endregion Switch states env
+
         private async void buttonStart_Click(object sender, EventArgs e)
         {
             if (knightPos == null || kingPos == null)
@@ -140,7 +142,7 @@ namespace AI_lab1
                 return;
             }
 
-            // отмечаем клетки как пройденные, пропускаем первую
+            // отмечаем клетки как пройденные, пропускаем первую (на которой сто€л конь)
             foreach (var node in pathToKing.Skip(1))
             {
                 if (gridStates[node.X, node.Y] == States.Empty)
@@ -204,7 +206,6 @@ namespace AI_lab1
                 }
             }
         }
-
         private void buttonReset_Click(object sender, EventArgs e)
         {
             Reset();
