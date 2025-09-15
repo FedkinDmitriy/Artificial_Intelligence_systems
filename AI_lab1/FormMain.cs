@@ -182,6 +182,7 @@ namespace AI_lab1
         {
             player?.Stop();
             isPlaying = false;
+            buttonSound.Text = "¬кл. звук";
             checkBoxBFS.Checked = false;
             checkBoxDFS.Checked = false;
             knightPos = null;
