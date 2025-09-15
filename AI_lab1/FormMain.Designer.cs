@@ -36,6 +36,7 @@
             buttonReset = new Button();
             checkBoxDFS = new CheckBox();
             checkBoxBFS = new CheckBox();
+            buttonSound = new Button();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -133,6 +134,16 @@
             checkBoxBFS.Text = "BFS";
             checkBoxBFS.UseVisualStyleBackColor = true;
             // 
+            // buttonSound
+            // 
+            buttonSound.Location = new Point(537, 405);
+            buttonSound.Name = "buttonSound";
+            buttonSound.Size = new Size(75, 23);
+            buttonSound.TabIndex = 8;
+            buttonSound.Text = "Вкл. звук";
+            buttonSound.UseVisualStyleBackColor = true;
+            buttonSound.Click += buttonSound_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -140,6 +151,7 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(buttonSound);
             Controls.Add(checkBoxBFS);
             Controls.Add(checkBoxDFS);
             Controls.Add(buttonReset);
@@ -166,5 +178,6 @@
         private Button buttonReset;
         private CheckBox checkBoxDFS;
         private CheckBox checkBoxBFS;
+        private Button buttonSound;
     }
 }

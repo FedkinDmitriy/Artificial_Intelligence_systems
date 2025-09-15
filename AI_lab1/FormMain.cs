@@ -1,4 +1,5 @@
 using AI_lab1.Lib;
+using System.Media;
 
 namespace AI_lab1
 {
@@ -10,6 +11,8 @@ namespace AI_lab1
         private (int x, int y)? knightPos = null; //Агент
         private (int x, int y)? kingPos = null;
         private States[,] gridStates = new States[8, 8]; //Среда    
+        private SoundPlayer? player;
+        private bool isPlaying = false;
         public FormMain()
         {
             InitializeComponent();
@@ -20,6 +23,8 @@ namespace AI_lab1
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            player = new SoundPlayer(Properties.Resources.soundAttila);
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -39,7 +44,7 @@ namespace AI_lab1
                         if (button is null) return;
 
                         var (x, y) = ((int, int))button.Tag!;
-                        
+
                         switch (currentState)
                         {
                             case States.Knight:
@@ -127,7 +132,7 @@ namespace AI_lab1
                 findMethod = solver.FindPathBFS;
             }
             else if (checkBoxDFS.Checked && !checkBoxBFS.Checked)
-            { 
+            {
                 findMethod = solver.FindPathDFS;
             }
             else
@@ -175,6 +180,8 @@ namespace AI_lab1
 
         private void Reset()
         {
+            player?.Stop();
+            isPlaying = false;
             checkBoxBFS.Checked = false;
             checkBoxDFS.Checked = false;
             knightPos = null;
@@ -214,5 +221,20 @@ namespace AI_lab1
             Reset();
         }
 
+        private void buttonSound_Click(object sender, EventArgs e)
+        {
+            if (!isPlaying)
+            {
+                player?.PlayLooping();
+                isPlaying = true;
+                buttonSound.Text = "Выкл. звук";
+            }
+            else
+            {
+                player?.Stop();
+                isPlaying = false;
+                buttonSound.Text = "Вкл. звук";
+            }
+        }
     }
 }
