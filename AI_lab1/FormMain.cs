@@ -168,6 +168,7 @@ namespace AI_lab1
             // подсчет шагов
             textBoxIterations.Text = solver.Iterations.ToString();
             textBoxStates.Text = solver.GeneratedStates.ToString();
+            textBoxMemory.Text = solver.MaxOpenCount.ToString();
             int totalSteps = (pathToKing.Count - 1) + (pathBack.Count - 1);
             MessageBox.Show(
                 $"ѕуть найден!\nЎагов до корол€: {pathToKing.Count - 1}\n" +
@@ -183,6 +184,7 @@ namespace AI_lab1
         {
             textBoxStates.Clear();
             textBoxIterations.Clear();
+            textBoxMemory.Clear();
             player?.Stop();
             isPlaying = false;
             buttonSound.Text = "¬кл. звук";

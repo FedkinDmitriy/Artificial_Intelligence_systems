@@ -41,6 +41,8 @@
             textBoxStates = new TextBox();
             label1 = new Label();
             label2 = new Label();
+            label3 = new Label();
+            textBoxMemory = new TextBox();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -180,6 +182,22 @@
             label2.TabIndex = 12;
             label2.Text = "Кол-во порожденных состояний";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(456, 115);
+            label3.Name = "label3";
+            label3.Size = new Size(166, 15);
+            label3.TabIndex = 13;
+            label3.Text = "Макс. кол-во узлов в памяти";
+            // 
+            // textBoxMemory
+            // 
+            textBoxMemory.Location = new Point(648, 107);
+            textBoxMemory.Name = "textBoxMemory";
+            textBoxMemory.Size = new Size(45, 23);
+            textBoxMemory.TabIndex = 14;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -187,6 +205,8 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(textBoxMemory);
+            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(textBoxStates);
@@ -223,5 +243,7 @@
         private TextBox textBoxStates;
         private Label label1;
         private Label label2;
+        private Label label3;
+        private TextBox textBoxMemory;
     }
 }

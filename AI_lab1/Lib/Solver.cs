@@ -14,8 +14,9 @@ namespace AI_lab1.Lib
         private const int SIZE_BOARD = 8;
         private States[,] grid;
 
-        public int Iterations { get; private set; } // сколько раз мы берём узел из очереди
-        public int GeneratedStates { get; private set; } // сколько новых узлов реально добавлено в O
+        public int Iterations { get; private set; } // сколько раз мы берём узел из очереди (Временная сложность)
+        public int GeneratedStates { get; private set; } // сколько новых узлов реально добавлено в O (Временная сложность)
+        public int MaxOpenCount { get; set; } // Максимальное количество узлов в памяти (Пространственная сложность)
 
         public Solver(States[,] gridStates)
         {
@@ -33,12 +34,15 @@ namespace AI_lab1.Lib
             var C = new HashSet<(int, int)>();
 
             Iterations = 0; 
-            GeneratedStates = 0; 
+            GeneratedStates = 0;
+            MaxOpenCount = 0;
 
             O.Enqueue(new Node(start.x, start.y));
 
             while (O.Count > 0)
             {
+                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
+
                 Iterations++;
 
                 // x := first(O)
@@ -80,11 +84,14 @@ namespace AI_lab1.Lib
 
             Iterations = 0;
             GeneratedStates = 0;
+            MaxOpenCount = 0;
 
             O.Push(new Node(start.x, start.y));
 
             while (O.Count > 0)
             {
+                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
+
                 Iterations++;
 
                 var current = O.Pop(); //берём верхний
@@ -124,5 +131,66 @@ namespace AI_lab1.Lib
             path.Reverse();
             return path;
         }
+
+
+        #region Second Part of First LabWork
+        /// <summary>
+        /// DFS с ограничением глубины
+        /// </summary>
+        public List<Node>? FindPathDFS_Limited((int x, int y) start, (int x, int y) target, int maxDepth,
+            out int SolverIterations, out int SolverGeneratedStates, out int DFS_MaxOpenCount)
+        {
+            var O = new Stack<(Node node, int depth)>();
+            var C = new HashSet<(int, int)>();
+
+            SolverIterations = 0;
+            SolverGeneratedStates = 0;
+            DFS_MaxOpenCount = 0;
+
+            O.Push((new Node(start.x, start.y), 0));
+
+            while (O.Count > 0)
+            {
+                SolverIterations++;
+                if (O.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count;
+
+                var (current, depth) = O.Pop();
+
+                if ((current.X, current.Y) == target) return ReconstructPath(current);
+
+                if (C.Contains((current.X, current.Y)) || depth >= maxDepth) continue; //если достигнут предел глубины, не раскрываем узел и не добавляем его в C
+
+                C.Add((current.X, current.Y));
+
+                foreach (var (dx, dy) in KnightMoves)
+                {
+                    int nx = current.X + dx;
+                    int ny = current.Y + dy;
+
+                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && !C.Contains((nx, ny)))
+                    {
+                        O.Push((new Node(nx, ny, current), depth + 1));
+                        SolverGeneratedStates++;
+                    }
+                }
+            }
+
+            return null;
+        }
+        /// <summary>
+        /// DFS с итеративным ограничением глубины
+        /// </summary>
+        public List<Node>? FindPathIterativeDeepening((int x, int y) start, (int x, int y) target, int maxDepth)
+        {
+            for (int depth = 1; depth <= maxDepth; depth++)
+            {
+                var result = FindPathDFS_Limited(start, target, depth);
+                if (result != null) return result;
+            }
+            return null;
+        }
+
+
+        #endregion Second Part of First LabWork
     }
 }
