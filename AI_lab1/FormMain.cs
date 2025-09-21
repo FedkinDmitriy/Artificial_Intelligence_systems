@@ -166,6 +166,8 @@ namespace AI_lab1
             }
 
             // подсчет шагов
+            textBoxIterations.Text = solver.Iterations.ToString();
+            textBoxStates.Text = solver.GeneratedStates.ToString();
             int totalSteps = (pathToKing.Count - 1) + (pathBack.Count - 1);
             MessageBox.Show(
                 $"ѕуть найден!\nЎагов до корол€: {pathToKing.Count - 1}\n" +
@@ -177,9 +179,10 @@ namespace AI_lab1
             await HighlightPathAsync(pathToKing, Color.LightBlue);
             await HighlightPathAsync(pathBack, Color.LightGreen);
         }
-
         private void Reset()
         {
+            textBoxStates.Clear();
+            textBoxIterations.Clear();
             player?.Stop();
             isPlaying = false;
             buttonSound.Text = "¬кл. звук";
@@ -221,7 +224,6 @@ namespace AI_lab1
         {
             Reset();
         }
-
         private void buttonSound_Click(object sender, EventArgs e)
         {
             if (!isPlaying)

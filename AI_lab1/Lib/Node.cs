@@ -14,7 +14,6 @@ namespace AI_lab1.Lib
         public int X { get; }
         public int Y { get; }
         public Node? Parent { get; }
-
         public Node(int x, int y, Node? parent = null)
         {
             X = x;

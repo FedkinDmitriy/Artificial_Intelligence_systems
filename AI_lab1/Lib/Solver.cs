@@ -14,6 +14,9 @@ namespace AI_lab1.Lib
         private const int SIZE_BOARD = 8;
         private States[,] grid;
 
+        public int Iterations { get; private set; } // сколько раз мы берём узел из очереди
+        public int GeneratedStates { get; private set; } // сколько новых узлов реально добавлено в O
+
         public Solver(States[,] gridStates)
         {
             grid = gridStates;
@@ -29,10 +32,15 @@ namespace AI_lab1.Lib
             // C – закрытые
             var C = new HashSet<(int, int)>();
 
+            Iterations = 0; 
+            GeneratedStates = 0; 
+
             O.Enqueue(new Node(start.x, start.y));
 
             while (O.Count > 0)
             {
+                Iterations++;
+
                 // x := first(O)
                 var current = O.Dequeue();
 
@@ -54,6 +62,7 @@ namespace AI_lab1.Lib
                     if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx,ny] != States.Visited && !C.Contains((nx, ny)))
                     {
                         O.Enqueue(new Node(nx, ny, current));
+                        GeneratedStates++;
                     }
                 }
             }
@@ -69,10 +78,15 @@ namespace AI_lab1.Lib
             var O = new Stack<Node>(); // стек (вместо очереди)
             var C = new HashSet<(int, int)>();
 
+            Iterations = 0;
+            GeneratedStates = 0;
+
             O.Push(new Node(start.x, start.y));
 
             while (O.Count > 0)
             {
+                Iterations++;
+
                 var current = O.Pop(); //берём верхний
 
                 if ((current.X, current.Y) == target) return ReconstructPath(current);
@@ -86,18 +100,15 @@ namespace AI_lab1.Lib
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
-                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD &&
-                        grid[nx, ny] != States.Burning &&
-                        grid[nx, ny] != States.Visited &&
-                        !C.Contains((nx, ny)))
+                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !C.Contains((nx, ny)))
                     {
                         O.Push(new Node(nx, ny, current));
+                        GeneratedStates++;
                     }
                 }
             }
             return null; // путь не найден
         }
-
 
         /// <summary>
         /// Восстановление пути из родительских ссылок

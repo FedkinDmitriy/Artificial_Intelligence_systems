@@ -37,6 +37,10 @@
             checkBoxDFS = new CheckBox();
             checkBoxBFS = new CheckBox();
             buttonSound = new Button();
+            textBoxIterations = new TextBox();
+            textBoxStates = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -144,6 +148,38 @@
             buttonSound.UseVisualStyleBackColor = true;
             buttonSound.Click += buttonSound_Click;
             // 
+            // textBoxIterations
+            // 
+            textBoxIterations.Location = new Point(648, 49);
+            textBoxIterations.Name = "textBoxIterations";
+            textBoxIterations.Size = new Size(45, 23);
+            textBoxIterations.TabIndex = 9;
+            // 
+            // textBoxStates
+            // 
+            textBoxStates.Location = new Point(648, 78);
+            textBoxStates.Name = "textBoxStates";
+            textBoxStates.Size = new Size(45, 23);
+            textBoxStates.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(456, 57);
+            label1.Name = "label1";
+            label1.Size = new Size(146, 15);
+            label1.TabIndex = 11;
+            label1.Text = "Кол-во итераций в цикле";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(456, 86);
+            label2.Name = "label2";
+            label2.Size = new Size(188, 15);
+            label2.TabIndex = 12;
+            label2.Text = "Кол-во порожденных состояний";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -151,6 +187,10 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(textBoxStates);
+            Controls.Add(textBoxIterations);
             Controls.Add(buttonSound);
             Controls.Add(checkBoxBFS);
             Controls.Add(checkBoxDFS);
@@ -179,5 +219,9 @@
         private CheckBox checkBoxDFS;
         private CheckBox checkBoxBFS;
         private Button buttonSound;
+        private TextBox textBoxIterations;
+        private TextBox textBoxStates;
+        private Label label1;
+        private Label label2;
     }
 }
