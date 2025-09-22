@@ -43,6 +43,8 @@
             label2 = new Label();
             label3 = new Label();
             textBoxMemory = new TextBox();
+            checkBoxIterDFS = new CheckBox();
+            checkBoxBiSearch = new CheckBox();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -102,7 +104,7 @@
             // 
             // buttonStart
             // 
-            buttonStart.Location = new Point(618, 376);
+            buttonStart.Location = new Point(618, 405);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(75, 23);
             buttonStart.TabIndex = 4;
@@ -112,7 +114,7 @@
             // 
             // buttonReset
             // 
-            buttonReset.Location = new Point(618, 405);
+            buttonReset.Location = new Point(537, 405);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(75, 23);
             buttonReset.TabIndex = 5;
@@ -123,7 +125,7 @@
             // checkBoxDFS
             // 
             checkBoxDFS.AutoSize = true;
-            checkBoxDFS.Location = new Point(647, 336);
+            checkBoxDFS.Location = new Point(647, 364);
             checkBoxDFS.Name = "checkBoxDFS";
             checkBoxDFS.Size = new Size(46, 19);
             checkBoxDFS.TabIndex = 6;
@@ -133,7 +135,7 @@
             // checkBoxBFS
             // 
             checkBoxBFS.AutoSize = true;
-            checkBoxBFS.Location = new Point(648, 311);
+            checkBoxBFS.Location = new Point(548, 364);
             checkBoxBFS.Name = "checkBoxBFS";
             checkBoxBFS.Size = new Size(45, 19);
             checkBoxBFS.TabIndex = 7;
@@ -142,7 +144,7 @@
             // 
             // buttonSound
             // 
-            buttonSound.Location = new Point(537, 405);
+            buttonSound.Location = new Point(456, 405);
             buttonSound.Name = "buttonSound";
             buttonSound.Size = new Size(75, 23);
             buttonSound.TabIndex = 8;
@@ -198,6 +200,27 @@
             textBoxMemory.Size = new Size(45, 23);
             textBoxMemory.TabIndex = 14;
             // 
+            // checkBoxIterDFS
+            // 
+            checkBoxIterDFS.AutoSize = true;
+            checkBoxIterDFS.Location = new Point(598, 364);
+            checkBoxIterDFS.Name = "checkBoxIterDFS";
+            checkBoxIterDFS.Size = new Size(43, 19);
+            checkBoxIterDFS.TabIndex = 15;
+            checkBoxIterDFS.Text = "IDS";
+            checkBoxIterDFS.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBiSearch
+            // 
+            checkBoxBiSearch.AutoSize = true;
+            checkBoxBiSearch.Enabled = false;
+            checkBoxBiSearch.Location = new Point(456, 364);
+            checkBoxBiSearch.Name = "checkBoxBiSearch";
+            checkBoxBiSearch.Size = new Size(86, 19);
+            checkBoxBiSearch.TabIndex = 16;
+            checkBoxBiSearch.Text = "BiDirectBFS";
+            checkBoxBiSearch.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -205,6 +228,8 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(checkBoxBiSearch);
+            Controls.Add(checkBoxIterDFS);
             Controls.Add(textBoxMemory);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -245,5 +270,7 @@
         private Label label2;
         private Label label3;
         private TextBox textBoxMemory;
+        private CheckBox checkBoxIterDFS;
+        private CheckBox checkBoxBiSearch;
     }
 }

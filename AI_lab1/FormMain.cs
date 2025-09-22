@@ -125,25 +125,25 @@ namespace AI_lab1
 
             var solver = new Solver(gridStates);
 
-            Func<(int x, int y), (int x, int y), List<Node>?>? findMethod = null;
-
-            if (checkBoxBFS.Checked && !checkBoxDFS.Checked)
-            {
-                findMethod = solver.FindPathBFS;
-            }
-            else if (checkBoxDFS.Checked && !checkBoxBFS.Checked)
-            {
-                findMethod = solver.FindPathDFS;
-            }
-            else
-            {
-                MessageBox.Show("Выберите метод поиска (BFS или DFS)!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Reset();
-                return;
-            }
+            //Func<(int x, int y), (int x, int y), List<Node>?>? findMethod = null;
+            //if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
+            //{
+            //    findMethod = solver.FindPathBFS;
+            //}
+            //else if (checkBoxDFS.Checked && !checkBoxBFS.Checked && !checkBoxIterDFS.Checked)
+            //{
+            //    findMethod = solver.FindPathDFS;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Выберите метод поиска (BFS или DFS)!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    Reset();
+            //    return;
+            //}
 
             // путь к королю
-            var pathToKing = findMethod(knightPos.Value, kingPos.Value);
+            var pathToKing = RunSolver(solver, knightPos.Value, kingPos.Value);
+            //var pathToKing = findMethod(knightPos.Value, kingPos.Value);
             if (pathToKing == null)
             {
                 MessageBox.Show("Конь не может дойти до короля!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -158,7 +158,8 @@ namespace AI_lab1
             }
 
             // путь обратно
-            var pathBack = findMethod(kingPos.Value, knightPos.Value);
+            var pathBack = RunSolver(solver,kingPos.Value, knightPos.Value);
+            //var pathBack = findMethod(kingPos.Value, knightPos.Value);
             if (pathBack == null)
             {
                 MessageBox.Show("Конь дошёл до короля, но не может вернуться!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -172,7 +173,7 @@ namespace AI_lab1
             int totalSteps = (pathToKing.Count - 1) + (pathBack.Count - 1);
             MessageBox.Show(
                 $"Путь найден!\nШагов до короля: {pathToKing.Count - 1}\n" +
-                $"Шагов обратно: {pathBack.Count - 1}\nВсего шагов: {totalSteps}",
+                $"Шагов обратно: {pathBack.Count - 1}\nВсего шагов: {totalSteps}\n",
                 "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information
             );
 
@@ -190,6 +191,7 @@ namespace AI_lab1
             buttonSound.Text = "Вкл. звук";
             checkBoxBFS.Checked = false;
             checkBoxDFS.Checked = false;
+            checkBoxIterDFS.Checked = false;
             knightPos = null;
             kingPos = null;
             for (int i = 0; i < 8; i++)
@@ -241,5 +243,28 @@ namespace AI_lab1
                 buttonSound.Text = "Вкл. звук";
             }
         }
+        private List<Node>? RunSolver(Solver solver,(int x, int y) start,(int x, int y) target)
+        {
+            if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
+            {
+                return solver.FindPathBFS(start, target);
+            }
+            else if (!checkBoxBFS.Checked && checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
+            {
+                return solver.FindPathDFS(start, target);
+            }
+            else if (!checkBoxBFS.Checked && !checkBoxDFS.Checked && checkBoxIterDFS.Checked)
+            {
+                int maxDepth = 64;
+                return solver.FindPathIterativeDeepening(start, target, maxDepth);
+            }
+            else
+            {
+                MessageBox.Show("Выберите метод поиска!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Reset();
+            }
+            return null;
+        }
+
     }
 }

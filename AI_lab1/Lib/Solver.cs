@@ -178,17 +178,32 @@ namespace AI_lab1.Lib
             return null;
         }
         /// <summary>
-        /// DFS с итеративным ограничением глубины
+        /// DFS с итеративным ограничением глубины (IDS - Iterative Deepening Search)
         /// </summary>
         public List<Node>? FindPathIterativeDeepening((int x, int y) start, (int x, int y) target, int maxDepth)
         {
+            Iterations = 0;
+            GeneratedStates = 0;
+            MaxOpenCount = 0;
+
             for (int depth = 1; depth <= maxDepth; depth++)
             {
-                var result = FindPathDFS_Limited(start, target, depth);
+                int iter, genStates, maxOpen;
+
+                var result = FindPathDFS_Limited(start, target, depth, out iter, out genStates, out maxOpen);
+
+                Iterations += iter;
+                GeneratedStates += genStates;
+                if (maxOpen > MaxOpenCount) MaxOpenCount = maxOpen;
+
                 if (result != null) return result;
             }
             return null;
         }
+
+
+
+
 
 
         #endregion Second Part of First LabWork
