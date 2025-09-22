@@ -213,7 +213,6 @@
             // checkBoxBiSearch
             // 
             checkBoxBiSearch.AutoSize = true;
-            checkBoxBiSearch.Enabled = false;
             checkBoxBiSearch.Location = new Point(456, 364);
             checkBoxBiSearch.Name = "checkBoxBiSearch";
             checkBoxBiSearch.Size = new Size(86, 19);

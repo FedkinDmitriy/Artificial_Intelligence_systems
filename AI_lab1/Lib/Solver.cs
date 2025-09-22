@@ -201,10 +201,104 @@ namespace AI_lab1.Lib
             return null;
         }
 
+        /// <summary>
+        /// Двунаправленный поиск BFS
+        /// </summary>
+        public List<Node>? FindPathBidirectionalBFS((int x, int y) start, (int x, int y) target)
+        {
+            var forwardQueue = new Queue<Node>(); // от начальной позиции коня
+            var backwardQueue = new Queue<Node>(); // от позиции короля
+
+            var forwardVisited = new Dictionary<(int, int), Node>(); // узлы, достигнутые из начала
+            var backwardVisited = new Dictionary<(int, int), Node>(); // узлы, достигнутые от цели
+
+            //метрики
+            Iterations = 0;
+            GeneratedStates = 0;
+            MaxOpenCount = 0;
+
+            
+            forwardQueue.Enqueue(new Node(start.x, start.y));
+            forwardVisited[(start.x, start.y)] = new Node(start.x, start.y);
+
+            backwardQueue.Enqueue(new Node(target.x, target.y));
+            backwardVisited[(target.x, target.y)] = new Node(target.x, target.y);
 
 
+            while (forwardQueue.Count > 0 && backwardQueue.Count > 0)
+            {
+                // Обновление метрик
+                int totalOpen = forwardQueue.Count + backwardQueue.Count;
+                if (totalOpen > MaxOpenCount) MaxOpenCount = totalOpen;
+                Iterations++;
 
 
+                // Раскрытие узла с начала
+                if (TryExpandBidirectional(forwardQueue, forwardVisited, backwardVisited, out var meetingNode, true))
+                {
+                    //meetingNode – конкретная точка, где встреча произошла
+                    return ReconstructBidirectionalPath(meetingNode, forwardVisited, backwardVisited);
+                }
+
+                // Раскрытие узла с конца
+                if (TryExpandBidirectional(backwardQueue, backwardVisited, forwardVisited, out meetingNode, false))
+                {
+                    return ReconstructBidirectionalPath(meetingNode, forwardVisited, backwardVisited);
+                }
+            }
+
+            return null;
+        }
+
+        // Пробуем раскрыть один уровень поиска
+        private bool TryExpandBidirectional(Queue<Node> queue, Dictionary<(int, int), Node> visited, Dictionary<(int, int), Node> oppositeVisited, out Node meetingNode, bool isForward)
+        {
+            meetingNode = null!;
+
+            if (queue.Count == 0) return false;
+
+            var current = queue.Dequeue();
+
+            foreach (var (dx, dy) in KnightMoves)
+            {
+                int nx = current.X + dx;
+                int ny = current.Y + dy;
+
+                if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && !visited.ContainsKey((nx, ny)))
+                {
+                    var nextNode = new Node(nx, ny, current);
+                    queue.Enqueue(nextNode);
+                    visited[(nx, ny)] = nextNode;
+                    GeneratedStates++;
+
+                    if (oppositeVisited.ContainsKey((nx, ny)))
+                    {
+                        meetingNode = nextNode;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Восстановление пути после встречи
+        private List<Node> ReconstructBidirectionalPath(Node meetingNode,Dictionary<(int, int), Node> forwardVisited,Dictionary<(int, int), Node> backwardVisited)
+        {
+            var pathForward = ReconstructPath(meetingNode);
+
+            var meetingPos = (meetingNode.X, meetingNode.Y);
+            var pathBackward = new List<Node>();
+            var backwardNode = backwardVisited[meetingPos].Parent; // не включаем meetingNode второй раз
+            while (backwardNode != null)
+            {
+                pathBackward.Add(backwardNode);
+                backwardNode = backwardNode.Parent;
+            }
+            pathBackward.Reverse();
+
+            pathForward.AddRange(pathBackward);
+            return pathForward;
+        }
 
         #endregion Second Part of First LabWork
     }

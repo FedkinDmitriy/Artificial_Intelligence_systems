@@ -245,18 +245,22 @@ namespace AI_lab1
         }
         private List<Node>? RunSolver(Solver solver,(int x, int y) start,(int x, int y) target)
         {
-            if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
+            if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
             {
                 return solver.FindPathBFS(start, target);
             }
-            else if (!checkBoxBFS.Checked && checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
+            else if (!checkBoxBFS.Checked && checkBoxDFS.Checked && !checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
             {
                 return solver.FindPathDFS(start, target);
             }
-            else if (!checkBoxBFS.Checked && !checkBoxDFS.Checked && checkBoxIterDFS.Checked)
+            else if (!checkBoxBFS.Checked && !checkBoxDFS.Checked && checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
             {
                 int maxDepth = 64;
                 return solver.FindPathIterativeDeepening(start, target, maxDepth);
+            }
+            else if(!checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked && checkBoxBiSearch.Checked)
+            {
+                return solver.FindPathBidirectionalBFS(start, target);
             }
             else
             {
