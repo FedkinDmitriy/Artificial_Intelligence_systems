@@ -271,7 +271,6 @@ namespace AI_lab1.Lib
                     visited[(nx, ny)] = nextNode;
                     GeneratedStates++;
 
-                    //grid[nx, ny] = States.Visited;
 
                     if (oppositeVisited.ContainsKey((nx, ny)))
                     {
