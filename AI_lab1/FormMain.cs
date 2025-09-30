@@ -249,6 +249,10 @@ namespace AI_lab1
             {
                 return solver.FindPathBidirectionalBFS(start, target);
             }
+            else if(radioButtonAStar.Checked)
+            {
+                return solver.FindPathAStar(start, target);
+            }
             else
             {
                 MessageBox.Show("Выберите метод поиска!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);

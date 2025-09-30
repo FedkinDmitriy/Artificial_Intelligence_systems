@@ -47,6 +47,7 @@
             radioButtonIDS = new RadioButton();
             radioButtonBiBFS = new RadioButton();
             checkBoxSaveState = new CheckBox();
+            radioButtonAStar = new RadioButton();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -190,10 +191,11 @@
             flowLayoutPanel1.Controls.Add(radioButtonBFS);
             flowLayoutPanel1.Controls.Add(radioButtonDFS);
             flowLayoutPanel1.Controls.Add(radioButtonIDS);
+            flowLayoutPanel1.Controls.Add(radioButtonAStar);
             flowLayoutPanel1.Controls.Add(radioButtonBiBFS);
-            flowLayoutPanel1.Location = new Point(456, 372);
+            flowLayoutPanel1.Location = new Point(442, 372);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(237, 27);
+            flowLayoutPanel1.Size = new Size(251, 27);
             flowLayoutPanel1.TabIndex = 17;
             // 
             // radioButtonBFS
@@ -232,7 +234,8 @@
             // radioButtonBiBFS
             // 
             radioButtonBiBFS.AutoSize = true;
-            radioButtonBiBFS.Location = new Point(152, 3);
+            radioButtonBiBFS.Enabled = false;
+            radioButtonBiBFS.Location = new Point(196, 3);
             radioButtonBiBFS.Name = "radioButtonBiBFS";
             radioButtonBiBFS.Size = new Size(50, 19);
             radioButtonBiBFS.TabIndex = 3;
@@ -249,6 +252,17 @@
             checkBoxSaveState.TabIndex = 18;
             checkBoxSaveState.Text = "Сохранить состояние";
             checkBoxSaveState.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAStar
+            // 
+            radioButtonAStar.AutoSize = true;
+            radioButtonAStar.Location = new Point(152, 3);
+            radioButtonAStar.Name = "radioButtonAStar";
+            radioButtonAStar.Size = new Size(38, 19);
+            radioButtonAStar.TabIndex = 4;
+            radioButtonAStar.TabStop = true;
+            radioButtonAStar.Text = "A*";
+            radioButtonAStar.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -303,5 +317,6 @@
         private RadioButton radioButtonIDS;
         private RadioButton radioButtonBiBFS;
         private CheckBox checkBoxSaveState;
+        private RadioButton radioButtonAStar;
     }
 }

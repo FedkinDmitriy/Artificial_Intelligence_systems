@@ -79,7 +79,7 @@ namespace AI_lab1.Lib
         /// </summary>
         public List<Node>? FindPathDFS((int x, int y) start, (int x, int y) target)
         {
-            var O = new Stack<Node>(); // стек (вместо очереди)
+            var O = new Stack<Node>();
             var C = new HashSet<(int, int)>();
 
             Iterations = 0;
@@ -94,7 +94,7 @@ namespace AI_lab1.Lib
 
                 Iterations++;
 
-                var current = O.Pop(); //берём верхний
+                var current = O.Pop();
 
                 if ((current.X, current.Y) == target) return ReconstructPath(current);
 
@@ -131,7 +131,6 @@ namespace AI_lab1.Lib
             path.Reverse();
             return path;
         }
-
 
         #region Second Part of First LabWork
         /// <summary>
@@ -302,5 +301,89 @@ namespace AI_lab1.Lib
         }
 
         #endregion Second Part of First LabWork
+
+        #region Third Part of LabWork
+
+        /// <summary>
+        /// A* поиск пути коня 
+        /// </summary>
+        public List<Node>? FindPathAStar((int x, int y) start, (int x, int y) target)
+        {
+            Iterations = 0;
+            GeneratedStates = 0;
+            MaxOpenCount = 0;
+
+            var open = new PriorityQueue<Node, int>();
+            var closed = new HashSet<(int, int)>();
+
+            var startNode = new Node(start.x, start.y)
+            {
+                G = 0,
+                H = CommonHeuristic(start.x, start.y, target.x, target.y) // эвристика
+            };
+            open.Enqueue(startNode, startNode.F);
+
+            while (open.Count > 0)
+            {
+                if (open.Count > MaxOpenCount) MaxOpenCount = open.Count;
+                Iterations++;
+
+                var current = open.Dequeue(); // берём узел с минимальным f(n)
+
+                if ((current.X, current.Y) == target) return ReconstructPath(current);
+
+                if (closed.Contains((current.X, current.Y))) continue;
+
+                closed.Add((current.X, current.Y));
+
+                foreach (var (dx, dy) in KnightMoves)
+                {
+                    int nx = current.X + dx;
+                    int ny = current.Y + dy;
+
+                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !closed.Contains((nx, ny)))
+                    {
+                        var g = current.G + 1; // шаг к соседу = +1
+                        var h = CommonHeuristic(nx, ny, target.x, target.y);
+
+                        var neighbor = new Node(nx, ny, current)
+                        {
+                            G = g,
+                            H = h
+                        };
+                        open.Enqueue(neighbor, neighbor.F); // f = g + h
+                        GeneratedStates++;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Общая эвристика для коня: нижняя граница числа ходов до цели
+        /// </summary>
+        private int CommonHeuristic(int x1, int y1, int x2, int y2)
+        {
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+
+            if (dx < dy)
+            {
+                int tmp = dx;
+                dx = dy;
+                dy = tmp;
+            }
+
+            int h1 = (dx + 1) / 2;        // минимальные ходы по X
+            int h2 = (dx + dy + 2) / 3;   // минимальные ходы по сумме dx+dy
+            return Math.Max(h1, h2);
+        }
     }
+
+
+    #endregion Third Part of LabWork
+
+
 }
+
