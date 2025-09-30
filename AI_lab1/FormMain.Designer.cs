@@ -34,8 +34,6 @@
             buttonBurn = new Button();
             buttonStart = new Button();
             buttonReset = new Button();
-            checkBoxDFS = new CheckBox();
-            checkBoxBFS = new CheckBox();
             buttonSound = new Button();
             textBoxIterations = new TextBox();
             textBoxStates = new TextBox();
@@ -43,8 +41,13 @@
             label2 = new Label();
             label3 = new Label();
             textBoxMemory = new TextBox();
-            checkBoxIterDFS = new CheckBox();
-            checkBoxBiSearch = new CheckBox();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            radioButtonBFS = new RadioButton();
+            radioButtonDFS = new RadioButton();
+            radioButtonIDS = new RadioButton();
+            radioButtonBiBFS = new RadioButton();
+            checkBoxSaveState = new CheckBox();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -104,43 +107,25 @@
             // 
             // buttonStart
             // 
+            buttonStart.BackColor = Color.Lime;
             buttonStart.Location = new Point(618, 405);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(75, 23);
             buttonStart.TabIndex = 4;
             buttonStart.Text = "Старт";
-            buttonStart.UseVisualStyleBackColor = true;
+            buttonStart.UseVisualStyleBackColor = false;
             buttonStart.Click += buttonStart_Click;
             // 
             // buttonReset
             // 
+            buttonReset.BackColor = Color.Gold;
             buttonReset.Location = new Point(537, 405);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(75, 23);
             buttonReset.TabIndex = 5;
             buttonReset.Text = "Сброс";
-            buttonReset.UseVisualStyleBackColor = true;
+            buttonReset.UseVisualStyleBackColor = false;
             buttonReset.Click += buttonReset_Click;
-            // 
-            // checkBoxDFS
-            // 
-            checkBoxDFS.AutoSize = true;
-            checkBoxDFS.Location = new Point(647, 364);
-            checkBoxDFS.Name = "checkBoxDFS";
-            checkBoxDFS.Size = new Size(46, 19);
-            checkBoxDFS.TabIndex = 6;
-            checkBoxDFS.Text = "DFS";
-            checkBoxDFS.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxBFS
-            // 
-            checkBoxBFS.AutoSize = true;
-            checkBoxBFS.Location = new Point(548, 364);
-            checkBoxBFS.Name = "checkBoxBFS";
-            checkBoxBFS.Size = new Size(45, 19);
-            checkBoxBFS.TabIndex = 7;
-            checkBoxBFS.Text = "BFS";
-            checkBoxBFS.UseVisualStyleBackColor = true;
             // 
             // buttonSound
             // 
@@ -200,25 +185,70 @@
             textBoxMemory.Size = new Size(45, 23);
             textBoxMemory.TabIndex = 14;
             // 
-            // checkBoxIterDFS
+            // flowLayoutPanel1
             // 
-            checkBoxIterDFS.AutoSize = true;
-            checkBoxIterDFS.Location = new Point(598, 364);
-            checkBoxIterDFS.Name = "checkBoxIterDFS";
-            checkBoxIterDFS.Size = new Size(43, 19);
-            checkBoxIterDFS.TabIndex = 15;
-            checkBoxIterDFS.Text = "IDS";
-            checkBoxIterDFS.UseVisualStyleBackColor = true;
+            flowLayoutPanel1.Controls.Add(radioButtonBFS);
+            flowLayoutPanel1.Controls.Add(radioButtonDFS);
+            flowLayoutPanel1.Controls.Add(radioButtonIDS);
+            flowLayoutPanel1.Controls.Add(radioButtonBiBFS);
+            flowLayoutPanel1.Location = new Point(456, 372);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(237, 27);
+            flowLayoutPanel1.TabIndex = 17;
             // 
-            // checkBoxBiSearch
+            // radioButtonBFS
             // 
-            checkBoxBiSearch.AutoSize = true;
-            checkBoxBiSearch.Location = new Point(456, 364);
-            checkBoxBiSearch.Name = "checkBoxBiSearch";
-            checkBoxBiSearch.Size = new Size(86, 19);
-            checkBoxBiSearch.TabIndex = 16;
-            checkBoxBiSearch.Text = "BiDirectBFS";
-            checkBoxBiSearch.UseVisualStyleBackColor = true;
+            radioButtonBFS.AutoSize = true;
+            radioButtonBFS.Location = new Point(3, 3);
+            radioButtonBFS.Name = "radioButtonBFS";
+            radioButtonBFS.Size = new Size(44, 19);
+            radioButtonBFS.TabIndex = 0;
+            radioButtonBFS.TabStop = true;
+            radioButtonBFS.Text = "BFS";
+            radioButtonBFS.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDFS
+            // 
+            radioButtonDFS.AutoSize = true;
+            radioButtonDFS.Location = new Point(53, 3);
+            radioButtonDFS.Name = "radioButtonDFS";
+            radioButtonDFS.Size = new Size(45, 19);
+            radioButtonDFS.TabIndex = 1;
+            radioButtonDFS.TabStop = true;
+            radioButtonDFS.Text = "DFS";
+            radioButtonDFS.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonIDS
+            // 
+            radioButtonIDS.AutoSize = true;
+            radioButtonIDS.Location = new Point(104, 3);
+            radioButtonIDS.Name = "radioButtonIDS";
+            radioButtonIDS.Size = new Size(42, 19);
+            radioButtonIDS.TabIndex = 2;
+            radioButtonIDS.TabStop = true;
+            radioButtonIDS.Text = "IDS";
+            radioButtonIDS.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonBiBFS
+            // 
+            radioButtonBiBFS.AutoSize = true;
+            radioButtonBiBFS.Location = new Point(152, 3);
+            radioButtonBiBFS.Name = "radioButtonBiBFS";
+            radioButtonBiBFS.Size = new Size(50, 19);
+            radioButtonBiBFS.TabIndex = 3;
+            radioButtonBiBFS.TabStop = true;
+            radioButtonBiBFS.Text = "2BFS";
+            radioButtonBiBFS.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSaveState
+            // 
+            checkBoxSaveState.AutoSize = true;
+            checkBoxSaveState.Location = new Point(548, 347);
+            checkBoxSaveState.Name = "checkBoxSaveState";
+            checkBoxSaveState.Size = new Size(145, 19);
+            checkBoxSaveState.TabIndex = 18;
+            checkBoxSaveState.Text = "Сохранить состояние";
+            checkBoxSaveState.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -227,8 +257,8 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
-            Controls.Add(checkBoxBiSearch);
-            Controls.Add(checkBoxIterDFS);
+            Controls.Add(checkBoxSaveState);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(textBoxMemory);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -236,8 +266,6 @@
             Controls.Add(textBoxStates);
             Controls.Add(textBoxIterations);
             Controls.Add(buttonSound);
-            Controls.Add(checkBoxBFS);
-            Controls.Add(checkBoxDFS);
             Controls.Add(buttonReset);
             Controls.Add(buttonStart);
             Controls.Add(buttonBurn);
@@ -248,6 +276,8 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Attila's Horse";
             Load += FormMain_Load;
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -260,8 +290,6 @@
         private Button buttonBurn;
         private Button buttonStart;
         private Button buttonReset;
-        private CheckBox checkBoxDFS;
-        private CheckBox checkBoxBFS;
         private Button buttonSound;
         private TextBox textBoxIterations;
         private TextBox textBoxStates;
@@ -269,7 +297,11 @@
         private Label label2;
         private Label label3;
         private TextBox textBoxMemory;
-        private CheckBox checkBoxIterDFS;
-        private CheckBox checkBoxBiSearch;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private RadioButton radioButtonBFS;
+        private RadioButton radioButtonDFS;
+        private RadioButton radioButtonIDS;
+        private RadioButton radioButtonBiBFS;
+        private CheckBox checkBoxSaveState;
     }
 }

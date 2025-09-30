@@ -167,7 +167,7 @@ namespace AI_lab1.Lib
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
-                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && !C.Contains((nx, ny)))
+                    if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !C.Contains((nx, ny)))
                     {
                         O.Push((new Node(nx, ny, current), depth + 1));
                         SolverGeneratedStates++;
@@ -264,12 +264,14 @@ namespace AI_lab1.Lib
                 int nx = current.X + dx;
                 int ny = current.Y + dy;
 
-                if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && !visited.ContainsKey((nx, ny)))
+                if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !visited.ContainsKey((nx, ny)))
                 {
                     var nextNode = new Node(nx, ny, current);
                     queue.Enqueue(nextNode);
                     visited[(nx, ny)] = nextNode;
                     GeneratedStates++;
+
+                    //grid[nx, ny] = States.Visited;
 
                     if (oppositeVisited.ContainsKey((nx, ny)))
                     {

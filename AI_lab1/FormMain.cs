@@ -16,14 +16,14 @@ namespace AI_lab1
         public FormMain()
         {
             InitializeComponent();
-            checkBoxBFS.Checked = true;
-            checkBoxDFS.Checked = false;
         }
         #endregion System Values and Ctors
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             player = new SoundPlayer(Properties.Resources.soundAttila);
+            radioButtonBFS.Checked = true;
+            checkBoxSaveState.Checked = false;
 
             for (int i = 0; i < 8; i++)
             {
@@ -123,27 +123,15 @@ namespace AI_lab1
                 return;
             }
 
-            var solver = new Solver(gridStates);
+            if (checkBoxSaveState.Checked)
+            {
+                ResetViewField();
+            }
 
-            //Func<(int x, int y), (int x, int y), List<Node>?>? findMethod = null;
-            //if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked)
-            //{
-            //    findMethod = solver.FindPathBFS;
-            //}
-            //else if (checkBoxDFS.Checked && !checkBoxBFS.Checked && !checkBoxIterDFS.Checked)
-            //{
-            //    findMethod = solver.FindPathDFS;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Выберите метод поиска (BFS или DFS)!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    Reset();
-            //    return;
-            //}
+            var solver = new Solver(gridStates);
 
             // путь к королю
             var pathToKing = RunSolver(solver, knightPos.Value, kingPos.Value);
-            //var pathToKing = findMethod(knightPos.Value, kingPos.Value);
             if (pathToKing == null)
             {
                 MessageBox.Show("Конь не может дойти до короля!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -159,7 +147,6 @@ namespace AI_lab1
 
             // путь обратно
             var pathBack = RunSolver(solver,kingPos.Value, knightPos.Value);
-            //var pathBack = findMethod(kingPos.Value, knightPos.Value);
             if (pathBack == null)
             {
                 MessageBox.Show("Конь дошёл до короля, но не может вернуться!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -183,15 +170,14 @@ namespace AI_lab1
         }
         private void Reset()
         {
+            radioButtonBFS.Checked = true;
+            checkBoxSaveState.Checked = false;
             textBoxStates.Clear();
             textBoxIterations.Clear();
             textBoxMemory.Clear();
             player?.Stop();
             isPlaying = false;
             buttonSound.Text = "Вкл. звук";
-            checkBoxBFS.Checked = false;
-            checkBoxDFS.Checked = false;
-            checkBoxIterDFS.Checked = false;
             knightPos = null;
             kingPos = null;
             for (int i = 0; i < 8; i++)
@@ -212,7 +198,7 @@ namespace AI_lab1
                 var original = btn.BackColor;
 
                 btn.BackColor = color;
-                await Task.Delay(500); // пауза 500 мс
+                await Task.Delay(500);
 
                 if (markVisited)
                 {
@@ -245,20 +231,21 @@ namespace AI_lab1
         }
         private List<Node>? RunSolver(Solver solver,(int x, int y) start,(int x, int y) target)
         {
-            if (checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
+
+            if (radioButtonBFS.Checked)
             {
                 return solver.FindPathBFS(start, target);
             }
-            else if (!checkBoxBFS.Checked && checkBoxDFS.Checked && !checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
+            else if(radioButtonDFS.Checked)
             {
                 return solver.FindPathDFS(start, target);
             }
-            else if (!checkBoxBFS.Checked && !checkBoxDFS.Checked && checkBoxIterDFS.Checked && !checkBoxBiSearch.Checked)
+            else if(radioButtonIDS.Checked)
             {
                 int maxDepth = 64;
                 return solver.FindPathIterativeDeepening(start, target, maxDepth);
             }
-            else if(!checkBoxBFS.Checked && !checkBoxDFS.Checked && !checkBoxIterDFS.Checked && checkBoxBiSearch.Checked)
+            else if(radioButtonBiBFS.Checked)
             {
                 return solver.FindPathBidirectionalBFS(start, target);
             }
@@ -269,6 +256,19 @@ namespace AI_lab1
             }
             return null;
         }
-
+        private void ResetViewField()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (gridStates[i, j] != States.Burning)
+                    {
+                        gridStates[i, j] = States.Empty;
+                        cells[i, j].BackColor = (i + j) % 2 == 0 ? Color.GhostWhite : Color.SaddleBrown;
+                    }
+                }
+            }
+        }
     }
 }
