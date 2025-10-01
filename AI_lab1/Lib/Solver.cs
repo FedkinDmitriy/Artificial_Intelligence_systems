@@ -307,7 +307,7 @@ namespace AI_lab1.Lib
         /// <summary>
         /// A* поиск пути коня 
         /// </summary>
-        public List<Node>? FindPathAStar((int x, int y) start, (int x, int y) target)
+        public List<Node>? FindPathAStar((int x, int y) start, (int x, int y) target, Func<int,int,int,int,int> Heuristic)
         {
             Iterations = 0;
             GeneratedStates = 0;
@@ -319,7 +319,7 @@ namespace AI_lab1.Lib
             var startNode = new Node(start.x, start.y)
             {
                 G = 0,
-                H = CommonHeuristic(start.x, start.y, target.x, target.y) // эвристика
+                H = Heuristic(start.x, start.y, target.x, target.y) // эвристика
             };
             open.Enqueue(startNode, startNode.F);
 
@@ -344,7 +344,7 @@ namespace AI_lab1.Lib
                     if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !closed.Contains((nx, ny)))
                     {
                         var g = current.G + 1; // шаг к соседу = +1
-                        var h = CommonHeuristic(nx, ny, target.x, target.y);
+                        var h = Heuristic(nx, ny, target.x, target.y);
 
                         var neighbor = new Node(nx, ny, current)
                         {
@@ -363,7 +363,12 @@ namespace AI_lab1.Lib
         /// <summary>
         /// Общая эвристика для коня: нижняя граница числа ходов до цели
         /// </summary>
-        private int CommonHeuristic(int x1, int y1, int x2, int y2)
+        /// /// <param name="x1">Текущая позиция X</param>
+        /// <param name="y1">Текущая позиция Y</param>
+        /// <param name="x2">Целевая позиция X</param>
+        /// <param name="y2">Целевая позиция Y</param>
+        /// <returns>Минимальное предполагаемое число ходов коня до цели</returns>
+        public int CommonHeuristic(int x1, int y1, int x2, int y2)
         {
             int dx = Math.Abs(x2 - x1);
             int dy = Math.Abs(y2 - y1);
@@ -379,11 +384,27 @@ namespace AI_lab1.Lib
             int h2 = (dx + dy + 2) / 3;   // минимальные ходы по сумме dx+dy
             return Math.Max(h1, h2);
         }
+
+
+        public int ManhattanHeuristic(int x1, int y1, int x2, int y2)
+        {
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+            return dx + dy;
+        }
+
+        public int ChebyshevHeuristic(int x1, int y1, int x2, int y2)
+        {
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+            return Math.Max(dx, dy);
+        }
+
+
+        #endregion Third Part of LabWork
+
+
+
     }
-
-
-    #endregion Third Part of LabWork
-
-
 }
 

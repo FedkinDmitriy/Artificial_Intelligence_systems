@@ -25,6 +25,11 @@ namespace AI_lab1
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
 
+            comboBoxHeuristic.Items.Add("Общая");
+            comboBoxHeuristic.Items.Add("Манхэттенская");
+            comboBoxHeuristic.Items.Add("Чебышева");
+            comboBoxHeuristic.SelectedIndex = 0;
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -251,7 +256,22 @@ namespace AI_lab1
             }
             else if(radioButtonAStar.Checked)
             {
-                return solver.FindPathAStar(start, target);
+                Func<int, int, int, int, int> heuristic;
+                switch (comboBoxHeuristic.SelectedItem?.ToString())
+                {
+                    case "Манхэттенская":
+                        heuristic = solver.ManhattanHeuristic;
+                        break;
+
+                    case "Чебышева":
+                        heuristic = solver.ChebyshevHeuristic;
+                        break;
+
+                    default:
+                        heuristic = solver.CommonHeuristic;
+                        break;
+                }
+                return solver.FindPathAStar(start, target, heuristic);
             }
             else
             {

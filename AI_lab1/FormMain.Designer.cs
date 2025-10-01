@@ -45,9 +45,10 @@
             radioButtonBFS = new RadioButton();
             radioButtonDFS = new RadioButton();
             radioButtonIDS = new RadioButton();
+            radioButtonAStar = new RadioButton();
             radioButtonBiBFS = new RadioButton();
             checkBoxSaveState = new CheckBox();
-            radioButtonAStar = new RadioButton();
+            comboBoxHeuristic = new ComboBox();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -231,6 +232,17 @@
             radioButtonIDS.Text = "IDS";
             radioButtonIDS.UseVisualStyleBackColor = true;
             // 
+            // radioButtonAStar
+            // 
+            radioButtonAStar.AutoSize = true;
+            radioButtonAStar.Location = new Point(152, 3);
+            radioButtonAStar.Name = "radioButtonAStar";
+            radioButtonAStar.Size = new Size(38, 19);
+            radioButtonAStar.TabIndex = 4;
+            radioButtonAStar.TabStop = true;
+            radioButtonAStar.Text = "A*";
+            radioButtonAStar.UseVisualStyleBackColor = true;
+            // 
             // radioButtonBiBFS
             // 
             radioButtonBiBFS.AutoSize = true;
@@ -253,16 +265,13 @@
             checkBoxSaveState.Text = "Сохранить состояние";
             checkBoxSaveState.UseVisualStyleBackColor = true;
             // 
-            // radioButtonAStar
+            // comboBoxHeuristic
             // 
-            radioButtonAStar.AutoSize = true;
-            radioButtonAStar.Location = new Point(152, 3);
-            radioButtonAStar.Name = "radioButtonAStar";
-            radioButtonAStar.Size = new Size(38, 19);
-            radioButtonAStar.TabIndex = 4;
-            radioButtonAStar.TabStop = true;
-            radioButtonAStar.Text = "A*";
-            radioButtonAStar.UseVisualStyleBackColor = true;
+            comboBoxHeuristic.FormattingEnabled = true;
+            comboBoxHeuristic.Location = new Point(442, 343);
+            comboBoxHeuristic.Name = "comboBoxHeuristic";
+            comboBoxHeuristic.Size = new Size(95, 23);
+            comboBoxHeuristic.TabIndex = 19;
             // 
             // FormMain
             // 
@@ -271,6 +280,7 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(comboBoxHeuristic);
             Controls.Add(checkBoxSaveState);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(textBoxMemory);
@@ -318,5 +328,6 @@
         private RadioButton radioButtonBiBFS;
         private CheckBox checkBoxSaveState;
         private RadioButton radioButtonAStar;
+        private ComboBox comboBoxHeuristic;
     }
 }
