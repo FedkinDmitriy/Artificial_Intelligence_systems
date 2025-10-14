@@ -28,6 +28,7 @@ namespace AI_lab1
             comboBoxHeuristic.Items.Add("Общая");
             comboBoxHeuristic.Items.Add("Манхэттенская");
             comboBoxHeuristic.Items.Add("Чебышева");
+            comboBoxHeuristic.Items.Add("SMA*");
             comboBoxHeuristic.SelectedIndex = 0;
 
             for (int i = 0; i < 8; i++)
@@ -266,6 +267,10 @@ namespace AI_lab1
                     case "Чебышева":
                         heuristic = solver.ChebyshevHeuristic;
                         break;
+
+                    //case "SMA*":
+                    //    //метод для SMA*
+                    //    break;
 
                     default:
                         heuristic = solver.CommonHeuristic;

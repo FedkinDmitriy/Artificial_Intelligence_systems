@@ -305,9 +305,10 @@ namespace AI_lab1.Lib
         #region Third Part of LabWork
 
         /// <summary>
-        /// A* поиск пути коня 
+        /// A* поиск пути коня
+        /// Добавлено максимальное значения для узлов в памяти, по умолчанию = int.MaxValue для SMA* (Simplified Memory-Bounded A*)
         /// </summary>
-        public List<Node>? FindPathAStar((int x, int y) start, (int x, int y) target, Func<int,int,int,int,int> Heuristic)
+        public List<Node>? FindPathAStar((int x, int y) start, (int x, int y) target, Func<int,int,int,int,int> Heuristic, int maxNodes = int.MaxValue)
         {
             Iterations = 0;
             GeneratedStates = 0;
@@ -357,6 +358,34 @@ namespace AI_lab1.Lib
                 }
             }
 
+            // Если превышен лимит памяти — удаляем худший узел
+            if (open.Count > maxNodes)
+            {
+
+               
+                var allNodes = new List<Node>();
+
+                while (open.Count > 0) allNodes.Add(open.Dequeue());
+
+                // Сортируем по f: худший (максимальный f) в конце
+                allNodes.Sort((a, b) => a.F.CompareTo(b.F));
+
+                // Берём худший (последний)
+                var worst = allNodes[^1];
+
+                allNodes.RemoveAt(allNodes.Count - 1);
+
+                // Backup: обновляем f родителя, если есть
+                if (worst.Parent != null)
+                {
+                    worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
+                }
+
+                // Возвращаем оставшиеся узлы в очередь
+                foreach (var node in allNodes)
+                    open.Enqueue(node, node.F);
+            }
+
             return null;
         }
 
@@ -385,7 +414,6 @@ namespace AI_lab1.Lib
             return Math.Max(h1, h2);
         }
 
-
         public int ManhattanHeuristic(int x1, int y1, int x2, int y2)
         {
             int dx = Math.Abs(x2 - x1);
@@ -403,7 +431,12 @@ namespace AI_lab1.Lib
 
         #endregion Third Part of LabWork
 
+        #region Addvanced Part of LabWork
 
+
+
+
+        #endregion Addvanced Part of LabWork
 
     }
 }
