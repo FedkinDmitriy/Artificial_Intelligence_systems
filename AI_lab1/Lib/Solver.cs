@@ -314,22 +314,49 @@ namespace AI_lab1.Lib
             GeneratedStates = 0;
             MaxOpenCount = 0;
 
-            var open = new PriorityQueue<Node, int>();
             var closed = new HashSet<(int, int)>();
+
+            bool memoryLimited = maxNodes < int.MaxValue;
+            PriorityQueue<Node, int>? openPQ = null;
+            SortedSet<Node>? openSS = null;
+
+            if (memoryLimited)
+            {
+                openSS = new SortedSet<Node>(Comparer<Node>.Create((a, b) =>
+                {
+                    int cmp = a.F.CompareTo(b.F); // приоритет по F
+                    if (cmp == 0) cmp = a.G.CompareTo(b.G); // если F равны, то по G
+                    if (cmp == 0) cmp = (a.X, a.Y).CompareTo((b.X, b.Y)); // если равны G, то по координатам
+                    return cmp;
+                }));
+            }
+            else
+            {
+                openPQ = new PriorityQueue<Node, int>();
+            }
 
             var startNode = new Node(start.x, start.y)
             {
                 G = 0,
                 H = Heuristic(start.x, start.y, target.x, target.y) // эвристика
             };
-            open.Enqueue(startNode, startNode.F);
+            
+            if (memoryLimited)
+                openSS!.Add(startNode);
+            else
+                openPQ!.Enqueue(startNode, startNode.F);
 
-            while (open.Count > 0)
+
+            while ((memoryLimited ? openSS!.Count : openPQ!.Count) > 0)
             {
-                if (open.Count > MaxOpenCount) MaxOpenCount = open.Count;
                 Iterations++;
 
-                var current = open.Dequeue(); // берём узел с минимальным f(n)
+                if ((memoryLimited ? openSS!.Count : openPQ!.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count : openPQ!.Count;
+
+                //берём узел с минимальным F
+                Node current = memoryLimited ? openSS!.Min! : openPQ!.Dequeue();
+
+                if (memoryLimited) openSS?.Remove(current); // min в SortedSet не извлекает, а показывает
 
                 if ((current.X, current.Y) == target) return ReconstructPath(current);
 
@@ -344,46 +371,35 @@ namespace AI_lab1.Lib
 
                     if (nx >= 0 && ny >= 0 && nx < SIZE_BOARD && ny < SIZE_BOARD && grid[nx, ny] != States.Burning && grid[nx, ny] != States.Visited && !closed.Contains((nx, ny)))
                     {
-                        var g = current.G + 1; // шаг к соседу = +1
+                        var g = current.G + 1;
                         var h = Heuristic(nx, ny, target.x, target.y);
 
-                        var neighbor = new Node(nx, ny, current)
-                        {
-                            G = g,
-                            H = h
-                        };
-                        open.Enqueue(neighbor, neighbor.F); // f = g + h
+                        var neighbor = new Node(nx, ny, current) { G = g, H = h };
+
+                        if (memoryLimited)
+                            openSS!.Add(neighbor);
+                        else
+                            openPQ!.Enqueue(neighbor, neighbor.F);
+
                         GeneratedStates++;
                     }
                 }
-            }
 
-            // Если превышен лимит памяти — удаляем худший узел
-            if (open.Count > maxNodes)
-            {
 
-               
-                var allNodes = new List<Node>();
-
-                while (open.Count > 0) allNodes.Add(open.Dequeue());
-
-                // Сортируем по f: худший (максимальный f) в конце
-                allNodes.Sort((a, b) => a.F.CompareTo(b.F));
-
-                // Берём худший (последний)
-                var worst = allNodes[^1];
-
-                allNodes.RemoveAt(allNodes.Count - 1);
-
-                // Backup: обновляем f родителя, если есть
-                if (worst.Parent != null)
+                // если включен SMA* и превышен лимит памяти
+                if (memoryLimited && openSS!.Count > maxNodes)
                 {
-                    worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
-                }
+                    var worst = openSS.Max!;
+                    openSS.Remove(worst);
 
-                // Возвращаем оставшиеся узлы в очередь
-                foreach (var node in allNodes)
-                    open.Enqueue(node, node.F);
+                    //обновляем эвристику родителя
+                    if (worst.Parent != null)
+                        worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
+
+                    // прекращаем поиск, если лимит превышен
+                    if (openSS.Count >= maxNodes)
+                        return null;
+                }
             }
 
             return null;

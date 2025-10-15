@@ -258,6 +258,7 @@ namespace AI_lab1
             else if(radioButtonAStar.Checked)
             {
                 Func<int, int, int, int, int> heuristic;
+
                 switch (comboBoxHeuristic.SelectedItem?.ToString())
                 {
                     case "Манхэттенская":
@@ -268,9 +269,9 @@ namespace AI_lab1
                         heuristic = solver.ChebyshevHeuristic;
                         break;
 
-                    //case "SMA*":
-                    //    //метод для SMA*
-                    //    break;
+                    case "SMA*":
+                        heuristic = solver.CommonHeuristic;
+                        return solver.FindPathAStar(start, target, heuristic, 20);
 
                     default:
                         heuristic = solver.CommonHeuristic;
