@@ -447,12 +447,6 @@ namespace AI_lab1.Lib
 
         #endregion Third Part of LabWork
 
-        #region Addvanced Part of LabWork
-
-
-
-
-        #endregion Addvanced Part of LabWork
 
     }
 }

@@ -271,7 +271,7 @@ namespace AI_lab1
 
                     case "SMA*":
                         heuristic = solver.CommonHeuristic;
-                        return solver.FindPathAStar(start, target, heuristic, 20);
+                        return solver.FindPathAStar(start, target, heuristic, 40);
 
                     default:
                         heuristic = solver.CommonHeuristic;
