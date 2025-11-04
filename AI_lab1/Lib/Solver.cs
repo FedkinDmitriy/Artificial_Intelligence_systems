@@ -43,7 +43,7 @@ namespace AI_lab1.Lib
             {
                 if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
 
-                Iterations++;
+                
 
                 // x := first(O)
                 var current = O.Dequeue();
@@ -60,6 +60,7 @@ namespace AI_lab1.Lib
                 // P: раскрытие x
                 foreach (var (dx, dy) in KnightMoves)
                 {
+                    Iterations++;
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
@@ -92,7 +93,7 @@ namespace AI_lab1.Lib
             {
                 if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
 
-                Iterations++;
+                
 
                 var current = O.Pop();
 
@@ -104,6 +105,7 @@ namespace AI_lab1.Lib
 
                 foreach (var (dx, dy) in KnightMoves)
                 {
+                    Iterations++;
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
@@ -150,7 +152,7 @@ namespace AI_lab1.Lib
 
             while (O.Count > 0)
             {
-                SolverIterations++;
+                
                 if (O.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count;
 
                 var (current, depth) = O.Pop();
@@ -163,6 +165,7 @@ namespace AI_lab1.Lib
 
                 foreach (var (dx, dy) in KnightMoves)
                 {
+                    SolverIterations++;
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
@@ -229,7 +232,7 @@ namespace AI_lab1.Lib
                 // Обновление метрик
                 int totalOpen = forwardQueue.Count + backwardQueue.Count;
                 if (totalOpen > MaxOpenCount) MaxOpenCount = totalOpen;
-                Iterations++;
+                
 
 
                 // Раскрытие узла с начала
@@ -260,6 +263,7 @@ namespace AI_lab1.Lib
 
             foreach (var (dx, dy) in KnightMoves)
             {
+                Iterations++;
                 int nx = current.X + dx;
                 int ny = current.Y + dy;
 
@@ -349,7 +353,7 @@ namespace AI_lab1.Lib
 
             while ((memoryLimited ? openSS!.Count : openPQ!.Count) > 0)
             {
-                Iterations++;
+                
 
                 if ((memoryLimited ? openSS!.Count : openPQ!.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count : openPQ!.Count;
 
@@ -366,6 +370,7 @@ namespace AI_lab1.Lib
 
                 foreach (var (dx, dy) in KnightMoves)
                 {
+                    Iterations++;
                     int nx = current.X + dx;
                     int ny = current.Y + dy;
 
