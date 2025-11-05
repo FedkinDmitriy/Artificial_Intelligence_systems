@@ -41,7 +41,7 @@ namespace AI_lab1.Lib
 
             while (O.Count > 0)
             {
-                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
+                if (O.Count + C.Count > MaxOpenCount) MaxOpenCount = O.Count + C.Count;
 
 
                 // x := first(O)
@@ -91,10 +91,9 @@ namespace AI_lab1.Lib
 
             while (O.Count > 0)
             {
-                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
+                if (O.Count + C.Count > MaxOpenCount) MaxOpenCount = O.Count + C.Count;
 
-                
-
+               
                 var current = O.Pop();
 
                 if ((current.X, current.Y) == target) return ReconstructPath(current);
@@ -153,7 +152,7 @@ namespace AI_lab1.Lib
             while (O.Count > 0)
             {
                 
-                if (O.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count;
+                if (O.Count + C.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count + C.Count;
 
                 var (current, depth) = O.Pop();
 
@@ -353,9 +352,8 @@ namespace AI_lab1.Lib
 
             while ((memoryLimited ? openSS!.Count : openPQ!.Count) > 0)
             {
-                
-
-                if ((memoryLimited ? openSS!.Count : openPQ!.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count : openPQ!.Count;
+               
+                if ((memoryLimited ? openSS!.Count + closed.Count : openPQ!.Count + closed.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count + closed.Count : openPQ!.Count + closed.Count;
 
                 //берём узел с минимальным F
                 Node current = memoryLimited ? openSS!.Min! : openPQ!.Dequeue();
