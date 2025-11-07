@@ -1,4 +1,6 @@
 ﻿
 Console.WriteLine("Тестирования для курсовой работы");
 
-ExperimentRunner.RunExperiments(1);
+ExperimentRunner.RunExperiments();
+
+//ExperimentRunner.ShowFullResults();
