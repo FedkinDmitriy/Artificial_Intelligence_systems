@@ -25,10 +25,8 @@ namespace AI_lab1
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
 
-            comboBoxHeuristic.Items.Add("Общая");
-            comboBoxHeuristic.Items.Add("Манхэттенская");
-            comboBoxHeuristic.Items.Add("Чебышева");
-            comboBoxHeuristic.Items.Add("SMA*");
+            comboBoxHeuristic.Items.Add("1");
+            comboBoxHeuristic.Items.Add("2");
             comboBoxHeuristic.SelectedIndex = 0;
 
             for (int i = 0; i < 8; i++)
@@ -144,35 +142,19 @@ namespace AI_lab1
                 return;
             }
 
-            // отмечаем клетки как пройденные, пропускаем первую (на которой стоял конь)
-            foreach (var node in pathToKing.Skip(1))
-            {
-                if (gridStates[node.X, node.Y] == States.Empty)
-                    gridStates[node.X, node.Y] = States.Visited;
-            }
-
-            // путь обратно
-            var pathBack = RunSolver(solver,kingPos.Value, knightPos.Value);
-            if (pathBack == null)
-            {
-                MessageBox.Show("Конь дошёл до короля, но не может вернуться!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             // подсчет шагов
             textBoxIterations.Text = solver.Iterations.ToString();
             textBoxStates.Text = solver.GeneratedStates.ToString();
             textBoxMemory.Text = solver.MaxOpenCount.ToString();
-            int totalSteps = (pathToKing.Count - 1) + (pathBack.Count - 1);
+
+            int totalSteps = (pathToKing.Count - 1);
             MessageBox.Show(
-                $"Путь найден!\nШагов до короля: {pathToKing.Count - 1}\n" +
-                $"Шагов обратно: {pathBack.Count - 1}\nВсего шагов: {totalSteps}\n",
+                $"Путь найден!\nШагов до короля: {pathToKing.Count - 1}\n" ,
                 "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information
             );
 
             // визуализация пути
             await HighlightPathAsync(pathToKing, Color.LightBlue);
-            await HighlightPathAsync(pathBack, Color.LightGreen);
         }
         private void Reset()
         {
@@ -242,18 +224,10 @@ namespace AI_lab1
             {
                 return solver.FindPathBFS(start, target);
             }
-            else if(radioButtonDFS.Checked)
-            {
-                return solver.FindPathDFS(start, target);
-            }
             else if(radioButtonIDS.Checked)
             {
                 int maxDepth = 64;
                 return solver.FindPathIterativeDeepening(start, target, maxDepth);
-            }
-            else if(radioButtonBiBFS.Checked)
-            {
-                return solver.FindPathBidirectionalBFS(start, target);
             }
             else if(radioButtonAStar.Checked)
             {
@@ -261,20 +235,16 @@ namespace AI_lab1
 
                 switch (comboBoxHeuristic.SelectedItem?.ToString())
                 {
-                    case "Манхэттенская":
-                        heuristic = solver.ManhattanHeuristic;
+                    case "Пред":
+                        heuristic = solver.BestKnightHeuristic;
                         break;
 
-                    case "Чебышева":
-                        heuristic = solver.ChebyshevHeuristic;
+                    case "2":
+                        heuristic = solver.LowBorderHeuristic;
                         break;
-
-                    case "SMA*":
-                        heuristic = solver.CommonHeuristic;
-                        return solver.FindPathAStar(start, target, heuristic, 40);
 
                     default:
-                        heuristic = solver.CommonHeuristic;
+                        heuristic = solver.BestKnightHeuristic;
                         break;
                 }
                 return solver.FindPathAStar(start, target, heuristic);

@@ -12,6 +12,7 @@ public static class ExperimentRunner
     public static Dictionary<string, List<(int D, double averageN, double bStar)>> branching = new();
 
     private static readonly int[] depths = { 2, 3, 4, 5, 6 };
+    private static readonly int[] depthsHard = { 8, 10 };
 
     public static void RunExperiments()
     {
@@ -22,16 +23,16 @@ public static class ExperimentRunner
     {
         { "BFS", new() },
         { "IDS", new() },
-        { "A*(Common)", new() },
-        { "A*(Manhattan)", new() }
+        { "A*(Matrix)", new() },
+        { "A*(LowBorder)", new() }
     };
 
         foreach (var (start, target, grid) in tests)
         {
             RunFullTest("BFS", (g, s, t) => g.FindPathBFS(s, t), grid, start, target, results);
             RunFullTest("IDS", (g, s, t) => g.FindPathIterativeDeepening(s, t, 64), grid, start, target, results);
-            RunFullTest("A*(Common)", (g, s, t) => g.FindPathAStar(s, t, g.CommonHeuristic), grid, start, target, results);
-            RunFullTest("A*(Manhattan)", (g, s, t) => g.FindPathAStar(s, t, g.ManhattanHeuristic), grid, start, target, results);
+            RunFullTest("A*(Matrix)", (g, s, t) => g.FindPathAStar(s, t, g.BestKnightHeuristic), grid, start, target, results);
+            RunFullTest("A*(LowBorder)", (g, s, t) => g.FindPathAStar(s, t, g.LowBorderHeuristic), grid, start, target, results);
         }
 
 
@@ -81,7 +82,6 @@ public static class ExperimentRunner
             }
         }
 
-
     }
 
     private static void RunFullTest(
@@ -128,7 +128,7 @@ public static class ExperimentRunner
                 var start = (x: rnd.Next(SIZE), y: rnd.Next(SIZE));
 
                 // рандомно поджигаем клетки
-                int burns = rnd.Next(2, 6);
+                int burns = rnd.Next(5, 12);
                 List<(int, int)> burningCells = new();
 
                 for (int i = 0; i < burns; i++)
@@ -165,13 +165,16 @@ public static class ExperimentRunner
         return tests;
     }
 
-    public static void ShowFullResults()
+    public static void ShowFullResults(params string[] names)
     {
         Console.WriteLine("\nРезультаты экспериментов:");
+
         foreach (var kvp in results)
         {
-            if (kvp.Value.Count == 0) return;
-
+            if (kvp.Value.Count == 0)
+                continue;
+            if (names.Length > 0 && !names.Contains(kvp.Key))
+                continue;
             Console.WriteLine("Алгоритм поиска: " + kvp.Key);
             foreach (var item in kvp.Value)
             {
