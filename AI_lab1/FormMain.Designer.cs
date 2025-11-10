@@ -231,7 +231,7 @@
             // checkBoxSaveState
             // 
             checkBoxSaveState.AutoSize = true;
-            checkBoxSaveState.Location = new Point(548, 347);
+            checkBoxSaveState.Location = new Point(548, 350);
             checkBoxSaveState.Name = "checkBoxSaveState";
             checkBoxSaveState.Size = new Size(145, 19);
             checkBoxSaveState.TabIndex = 18;
@@ -241,9 +241,9 @@
             // comboBoxHeuristic
             // 
             comboBoxHeuristic.FormattingEnabled = true;
-            comboBoxHeuristic.Location = new Point(447, 347);
+            comboBoxHeuristic.Location = new Point(456, 306);
             comboBoxHeuristic.Name = "comboBoxHeuristic";
-            comboBoxHeuristic.Size = new Size(95, 23);
+            comboBoxHeuristic.Size = new Size(237, 23);
             comboBoxHeuristic.TabIndex = 19;
             // 
             // FormMain

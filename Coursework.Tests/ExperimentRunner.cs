@@ -113,8 +113,6 @@ public static class ExperimentRunner
         var rnd = new Random();
         var tests = new List<((int, int), (int, int), States[,])>();
 
-        //int[] depths = { 2, 3, 4, 5, 6 };
-
         Console.WriteLine("=== Генерация тестовых данных ===");
 
         foreach (int d in depths)
@@ -186,11 +184,9 @@ public static class ExperimentRunner
     public static double ComputeBStar(double N, int d)
     {
         if (d == 0) return 0;
-
-        double low = 1.0001;  // нижняя граница (ветвление не меньше 1)
+        double low = 1.0001;  // b не может быть 1 (деление на 0)
         double high = 10;     // верхняя граница 
         double mid;
-
         while (high - low > 1e-6)
         {
             mid = (low + high) / 2;
@@ -201,7 +197,6 @@ public static class ExperimentRunner
             else
                 low = mid;
         }
-
         return (low + high) / 2;
     }
 

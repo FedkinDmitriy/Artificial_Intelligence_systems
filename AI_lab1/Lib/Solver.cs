@@ -231,13 +231,13 @@ namespace AI_lab1.Lib
             return null;
         }
 
-
+        //оценка нижней границы количества ходов
         public int LowBorderHeuristic(int x1, int y1, int x2, int y2)
         {
             int dx = Math.Abs(x2 - x1);
             int dy = Math.Abs(y2 - y1);
 
-            // Конь симметричен — упорядочим dx >= dy
+            //Конь симметричен — упорядочим dx >= dy
             if (dx < dy)
             {
                 int tmp = dx;
@@ -247,6 +247,7 @@ namespace AI_lab1.Lib
 
             int h1 = (dx + 1) / 2;      // минимальные ходы по X
             int h2 = (dx + dy + 2) / 3; // минимальные ходы по сумме dx+dy
+
             return Math.Max(h1, h2);
         }
 

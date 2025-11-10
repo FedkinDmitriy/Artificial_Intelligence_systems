@@ -25,8 +25,8 @@ namespace AI_lab1
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
 
-            comboBoxHeuristic.Items.Add("1");
-            comboBoxHeuristic.Items.Add("2");
+            comboBoxHeuristic.Items.Add("Матрица min ходов");
+            comboBoxHeuristic.Items.Add("Нижняя граница коня");
             comboBoxHeuristic.SelectedIndex = 0;
 
             for (int i = 0; i < 8; i++)
@@ -235,11 +235,11 @@ namespace AI_lab1
 
                 switch (comboBoxHeuristic.SelectedItem?.ToString())
                 {
-                    case "Пред":
+                    case "Матрица min ходов":
                         heuristic = solver.BestKnightHeuristic;
                         break;
 
-                    case "2":
+                    case "Нижняя граница коня":
                         heuristic = solver.LowBorderHeuristic;
                         break;
 
