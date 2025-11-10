@@ -10,7 +10,16 @@ namespace AI_lab1.Lib
             (2, 1), (1, 2), (-1, 2), (-2, 1),
             (-2, -1), (-1, -2), (1, -2), (2, -1)
         };
-
+        // Предвычисленная матрица минимальных ходов коня между любыми двумя клетками
+        private static readonly int[,] KnightDistanceTable = {
+            { 0, 3, 2, 3, 2, 3, 4, 5 },
+            { 3, 2, 1, 2, 3, 4, 3, 4 },
+            { 2, 1, 4, 3, 2, 3, 4, 5 },
+            { 3, 2, 3, 2, 3, 4, 3, 4 },
+            { 2, 3, 2, 3, 4, 3, 4, 5 },
+            { 3, 4, 3, 4, 3, 4, 5, 4 },
+            { 4, 3, 4, 3, 4, 5, 4, 5 },
+            { 5, 4, 5, 4, 5, 4, 5, 6 } };
         private const int SIZE_BOARD = 8;
         private States[,] grid;
 
@@ -41,10 +50,8 @@ namespace AI_lab1.Lib
 
             while (O.Count > 0)
             {
-                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
-
-                
-
+                if (O.Count + C.Count > MaxOpenCount) MaxOpenCount = O.Count + C.Count;
+           
                 // x := first(O)
                 var current = O.Dequeue();
 
@@ -91,9 +98,7 @@ namespace AI_lab1.Lib
 
             while (O.Count > 0)
             {
-                if (O.Count > MaxOpenCount) MaxOpenCount = O.Count;
-
-                
+                if (O.Count + C.Count > MaxOpenCount) MaxOpenCount = O.Count + C.Count;
 
                 var current = O.Pop();
 
@@ -153,7 +158,7 @@ namespace AI_lab1.Lib
             while (O.Count > 0)
             {
                 
-                if (O.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count;
+                if (O.Count + C.Count > DFS_MaxOpenCount) DFS_MaxOpenCount = O.Count + C.Count;
 
                 var (current, depth) = O.Pop();
 
@@ -219,7 +224,7 @@ namespace AI_lab1.Lib
             GeneratedStates = 0;
             MaxOpenCount = 0;
 
-            
+      
             forwardQueue.Enqueue(new Node(start.x, start.y));
             forwardVisited[(start.x, start.y)] = new Node(start.x, start.y);
 
@@ -233,7 +238,6 @@ namespace AI_lab1.Lib
                 int totalOpen = forwardQueue.Count + backwardQueue.Count;
                 if (totalOpen > MaxOpenCount) MaxOpenCount = totalOpen;
                 
-
 
                 // Раскрытие узла с начала
                 if (TryExpandBidirectional(forwardQueue, forwardVisited, backwardVisited, out var meetingNode, true))
@@ -354,8 +358,7 @@ namespace AI_lab1.Lib
             while ((memoryLimited ? openSS!.Count : openPQ!.Count) > 0)
             {
                 
-
-                if ((memoryLimited ? openSS!.Count : openPQ!.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count : openPQ!.Count;
+                if ((memoryLimited ? openSS!.Count + closed.Count : openPQ!.Count + closed.Count) > MaxOpenCount) MaxOpenCount = memoryLimited ? openSS!.Count + closed.Count : openPQ!.Count + closed.Count;
 
                 //берём узел с минимальным F
                 Node current = memoryLimited ? openSS!.Min! : openPQ!.Dequeue();
@@ -410,15 +413,27 @@ namespace AI_lab1.Lib
             return null;
         }
 
-        /// <summary>
-        /// Общая эвристика для коня: нижняя граница числа ходов до цели
-        /// </summary>
-        /// /// <param name="x1">Текущая позиция X</param>
-        /// <param name="y1">Текущая позиция Y</param>
-        /// <param name="x2">Целевая позиция X</param>
-        /// <param name="y2">Целевая позиция Y</param>
-        /// <returns>Минимальное предполагаемое число ходов коня до цели</returns>
-        public int CommonHeuristic(int x1, int y1, int x2, int y2)
+        //оценка нижней границы количества ходов
+        public int LowBorderHeuristic(int x1, int y1, int x2, int y2)
+        {
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+
+            //Конь симметричен — упорядочим dx >= dy
+            if (dx < dy)
+            {
+                int tmp = dx;
+                dx = dy;
+                dy = tmp;
+            }
+
+            int h1 = (dx + 1) / 2;      // минимальные ходы по X
+            int h2 = (dx + dy + 2) / 3; // минимальные ходы по сумме dx+dy
+
+            return Math.Max(h1, h2);
+        }
+
+        public int BestKnightHeuristic(int x1, int y1, int x2, int y2)
         {
             int dx = Math.Abs(x2 - x1);
             int dy = Math.Abs(y2 - y1);
@@ -430,25 +445,8 @@ namespace AI_lab1.Lib
                 dy = tmp;
             }
 
-            int h1 = (dx + 1) / 2;        // минимальные ходы по X
-            int h2 = (dx + dy + 2) / 3;   // минимальные ходы по сумме dx+dy
-            return Math.Max(h1, h2);
+            return KnightDistanceTable[dx, dy];
         }
-
-        public int ManhattanHeuristic(int x1, int y1, int x2, int y2)
-        {
-            int dx = Math.Abs(x2 - x1);
-            int dy = Math.Abs(y2 - y1);
-            return dx + dy;
-        }
-
-        public int ChebyshevHeuristic(int x1, int y1, int x2, int y2)
-        {
-            int dx = Math.Abs(x2 - x1);
-            int dy = Math.Abs(y2 - y1);
-            return Math.Max(dx, dy);
-        }
-
 
         #endregion Third Part of LabWork
 

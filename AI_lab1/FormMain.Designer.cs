@@ -43,10 +43,8 @@
             textBoxMemory = new TextBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             radioButtonBFS = new RadioButton();
-            radioButtonDFS = new RadioButton();
             radioButtonIDS = new RadioButton();
             radioButtonAStar = new RadioButton();
-            radioButtonBiBFS = new RadioButton();
             checkBoxSaveState = new CheckBox();
             comboBoxHeuristic = new ComboBox();
             flowLayoutPanel1.SuspendLayout();
@@ -190,13 +188,11 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(radioButtonBFS);
-            flowLayoutPanel1.Controls.Add(radioButtonDFS);
             flowLayoutPanel1.Controls.Add(radioButtonIDS);
             flowLayoutPanel1.Controls.Add(radioButtonAStar);
-            flowLayoutPanel1.Controls.Add(radioButtonBiBFS);
-            flowLayoutPanel1.Location = new Point(442, 372);
+            flowLayoutPanel1.Location = new Point(548, 372);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(251, 27);
+            flowLayoutPanel1.Size = new Size(145, 27);
             flowLayoutPanel1.TabIndex = 17;
             // 
             // radioButtonBFS
@@ -210,21 +206,10 @@
             radioButtonBFS.Text = "BFS";
             radioButtonBFS.UseVisualStyleBackColor = true;
             // 
-            // radioButtonDFS
-            // 
-            radioButtonDFS.AutoSize = true;
-            radioButtonDFS.Location = new Point(53, 3);
-            radioButtonDFS.Name = "radioButtonDFS";
-            radioButtonDFS.Size = new Size(45, 19);
-            radioButtonDFS.TabIndex = 1;
-            radioButtonDFS.TabStop = true;
-            radioButtonDFS.Text = "DFS";
-            radioButtonDFS.UseVisualStyleBackColor = true;
-            // 
             // radioButtonIDS
             // 
             radioButtonIDS.AutoSize = true;
-            radioButtonIDS.Location = new Point(104, 3);
+            radioButtonIDS.Location = new Point(53, 3);
             radioButtonIDS.Name = "radioButtonIDS";
             radioButtonIDS.Size = new Size(42, 19);
             radioButtonIDS.TabIndex = 2;
@@ -235,25 +220,13 @@
             // radioButtonAStar
             // 
             radioButtonAStar.AutoSize = true;
-            radioButtonAStar.Location = new Point(152, 3);
+            radioButtonAStar.Location = new Point(101, 3);
             radioButtonAStar.Name = "radioButtonAStar";
             radioButtonAStar.Size = new Size(38, 19);
             radioButtonAStar.TabIndex = 4;
             radioButtonAStar.TabStop = true;
             radioButtonAStar.Text = "A*";
             radioButtonAStar.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonBiBFS
-            // 
-            radioButtonBiBFS.AutoSize = true;
-            radioButtonBiBFS.Enabled = false;
-            radioButtonBiBFS.Location = new Point(196, 3);
-            radioButtonBiBFS.Name = "radioButtonBiBFS";
-            radioButtonBiBFS.Size = new Size(50, 19);
-            radioButtonBiBFS.TabIndex = 3;
-            radioButtonBiBFS.TabStop = true;
-            radioButtonBiBFS.Text = "2BFS";
-            radioButtonBiBFS.UseVisualStyleBackColor = true;
             // 
             // checkBoxSaveState
             // 
@@ -268,9 +241,9 @@
             // comboBoxHeuristic
             // 
             comboBoxHeuristic.FormattingEnabled = true;
-            comboBoxHeuristic.Location = new Point(442, 343);
+            comboBoxHeuristic.Location = new Point(456, 318);
             comboBoxHeuristic.Name = "comboBoxHeuristic";
-            comboBoxHeuristic.Size = new Size(95, 23);
+            comboBoxHeuristic.Size = new Size(237, 23);
             comboBoxHeuristic.TabIndex = 19;
             // 
             // FormMain
@@ -323,9 +296,7 @@
         private TextBox textBoxMemory;
         private FlowLayoutPanel flowLayoutPanel1;
         private RadioButton radioButtonBFS;
-        private RadioButton radioButtonDFS;
         private RadioButton radioButtonIDS;
-        private RadioButton radioButtonBiBFS;
         private CheckBox checkBoxSaveState;
         private RadioButton radioButtonAStar;
         private ComboBox comboBoxHeuristic;

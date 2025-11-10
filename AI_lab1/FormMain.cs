@@ -25,9 +25,8 @@ namespace AI_lab1
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
 
-            comboBoxHeuristic.Items.Add("Общая");
-            comboBoxHeuristic.Items.Add("Манхэттенская");
-            comboBoxHeuristic.Items.Add("Чебышева");
+            comboBoxHeuristic.Items.Add("Матрица min ходов");
+            comboBoxHeuristic.Items.Add("Нижняя граница");
             comboBoxHeuristic.Items.Add("SMA*");
             comboBoxHeuristic.SelectedIndex = 0;
 
@@ -242,18 +241,10 @@ namespace AI_lab1
             {
                 return solver.FindPathBFS(start, target);
             }
-            else if(radioButtonDFS.Checked)
-            {
-                return solver.FindPathDFS(start, target);
-            }
             else if(radioButtonIDS.Checked)
             {
                 int maxDepth = 64;
                 return solver.FindPathIterativeDeepening(start, target, maxDepth);
-            }
-            else if(radioButtonBiBFS.Checked)
-            {
-                return solver.FindPathBidirectionalBFS(start, target);
             }
             else if(radioButtonAStar.Checked)
             {
@@ -261,20 +252,20 @@ namespace AI_lab1
 
                 switch (comboBoxHeuristic.SelectedItem?.ToString())
                 {
-                    case "Манхэттенская":
-                        heuristic = solver.ManhattanHeuristic;
+                    case "Матрица min ходов":
+                        heuristic = solver.BestKnightHeuristic;
                         break;
 
-                    case "Чебышева":
-                        heuristic = solver.ChebyshevHeuristic;
+                    case "Нижняя граница":
+                        heuristic = solver.LowBorderHeuristic;
                         break;
 
                     case "SMA*":
-                        heuristic = solver.CommonHeuristic;
+                        heuristic = solver.BestKnightHeuristic;
                         return solver.FindPathAStar(start, target, heuristic, 40);
 
                     default:
-                        heuristic = solver.CommonHeuristic;
+                        heuristic = solver.BestKnightHeuristic;
                         break;
                 }
                 return solver.FindPathAStar(start, target, heuristic);
