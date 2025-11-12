@@ -385,28 +385,28 @@ namespace AI_lab1.Lib
                         var neighbor = new Node(nx, ny, current) { G = g, H = h };
 
                         if (memoryLimited)
+                        {
+                            // если включен SMA* и превышен лимит памяти
+                            if (memoryLimited && openSS!.Count > maxNodes)
+                            {
+                                var worst = openSS.Max!;
+                                openSS.Remove(worst);
+
+                                //обновляем эвристику родителя
+                                if (worst.Parent != null)
+                                    worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
+
+                                // прекращаем поиск, если лимит превышен
+                                if (openSS.Count >= maxNodes)
+                                    return null;
+                            }
                             openSS!.Add(neighbor);
+                        }
                         else
                             openPQ!.Enqueue(neighbor, neighbor.F);
 
                         GeneratedStates++;
                     }
-                }
-
-
-                // если включен SMA* и превышен лимит памяти
-                if (memoryLimited && openSS!.Count > maxNodes)
-                {
-                    var worst = openSS.Max!;
-                    openSS.Remove(worst);
-
-                    //обновляем эвристику родителя
-                    if (worst.Parent != null)
-                        worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
-
-                    // прекращаем поиск, если лимит превышен
-                    if (openSS.Count >= maxNodes)
-                        return null;
                 }
             }
 
