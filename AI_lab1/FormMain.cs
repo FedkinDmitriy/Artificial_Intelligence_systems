@@ -262,7 +262,7 @@ namespace AI_lab1
 
                     case "SMA*":
                         heuristic = solver.BestKnightHeuristic;
-                        return solver.FindPathAStar(start, target, heuristic, 40);
+                        return solver.FindPathAStar(start, target, heuristic, 28);
 
                     default:
                         heuristic = solver.BestKnightHeuristic;
