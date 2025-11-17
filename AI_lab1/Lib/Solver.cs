@@ -387,7 +387,7 @@ namespace AI_lab1.Lib
                         if (memoryLimited)
                         {
                             // если включен SMA* и превышен лимит памяти
-                            if (memoryLimited && openSS!.Count > maxNodes)
+                            if (openSS!.Count >= maxNodes)
                             {
                                 var worst = openSS.Max!;
                                 openSS.Remove(worst);
@@ -395,10 +395,6 @@ namespace AI_lab1.Lib
                                 //обновляем эвристику родителя
                                 if (worst.Parent != null)
                                     worst.Parent.H = Math.Max(worst.Parent.H, worst.F);
-
-                                // прекращаем поиск, если лимит превышен
-                                if (openSS.Count >= maxNodes)
-                                    return null;
                             }
                             openSS!.Add(neighbor);
                         }
