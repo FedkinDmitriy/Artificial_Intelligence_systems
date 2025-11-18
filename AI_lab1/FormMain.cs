@@ -24,6 +24,7 @@ namespace AI_lab1
             player = new SoundPlayer(Properties.Resources.soundAttila);
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
+            //numericUpDownSMA.Enabled = false;
 
             comboBoxHeuristic.Items.Add("Матрица min ходов");
             comboBoxHeuristic.Items.Add("Нижняя граница");
@@ -175,6 +176,8 @@ namespace AI_lab1
         }
         private void Reset()
         {
+            //numericUpDownSMA.Enabled = false;
+            numericUpDownSMA.Value = 1;
             radioButtonBFS.Checked = true;
             checkBoxSaveState.Checked = false;
             textBoxStates.Clear();
@@ -261,8 +264,9 @@ namespace AI_lab1
                         break;
 
                     case "SMA*":
+                        int limit = ((int)numericUpDownSMA.Value);
                         heuristic = solver.BestKnightHeuristic;
-                        return solver.FindPathAStar(start, target, heuristic, 28);
+                        return solver.FindPathAStar(start, target, heuristic, limit);
 
                     default:
                         heuristic = solver.BestKnightHeuristic;

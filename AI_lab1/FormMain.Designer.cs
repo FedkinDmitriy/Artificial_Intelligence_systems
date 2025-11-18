@@ -47,7 +47,10 @@
             radioButtonAStar = new RadioButton();
             checkBoxSaveState = new CheckBox();
             comboBoxHeuristic = new ComboBox();
+            numericUpDownSMA = new NumericUpDown();
+            label4 = new Label();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSMA).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -246,6 +249,24 @@
             comboBoxHeuristic.Size = new Size(237, 23);
             comboBoxHeuristic.TabIndex = 19;
             // 
+            // numericUpDownSMA
+            // 
+            numericUpDownSMA.Location = new Point(648, 136);
+            numericUpDownSMA.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownSMA.Name = "numericUpDownSMA";
+            numericUpDownSMA.Size = new Size(45, 23);
+            numericUpDownSMA.TabIndex = 20;
+            numericUpDownSMA.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(456, 144);
+            label4.Name = "label4";
+            label4.Size = new Size(136, 15);
+            label4.TabIndex = 21;
+            label4.Text = "Ограничение для SMA*";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -253,6 +274,8 @@
             BackColor = Color.DarkGray;
             BackgroundImage = Properties.Resources.attila_backimage;
             ClientSize = new Size(705, 440);
+            Controls.Add(label4);
+            Controls.Add(numericUpDownSMA);
             Controls.Add(comboBoxHeuristic);
             Controls.Add(checkBoxSaveState);
             Controls.Add(flowLayoutPanel1);
@@ -275,6 +298,7 @@
             Load += FormMain_Load;
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSMA).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -300,5 +324,7 @@
         private CheckBox checkBoxSaveState;
         private RadioButton radioButtonAStar;
         private ComboBox comboBoxHeuristic;
+        private NumericUpDown numericUpDownSMA;
+        private Label label4;
     }
 }
